@@ -80,8 +80,12 @@ A string (argument names, values and snippets) is a potentially empty sequence o
    * **[:twisted_rightwards_arrows: Implementor Notes](#handling-double-quoted-strings)**
  * Audlang does not allow ASCII control characters in any strings. This affects any characters with codes `0..31` as well as `127`.
  * Audlang specifies the following escape sequences and rules to represent these characters anyway **inside double-quoted strings**:
-   * `<NUL>`(0), `<SOH>`(1), `<STX>`(2), `<ETX>`(3), `<EOT>`(4), `<ENQ>`(5), `<ACK>`(6), `<BEL>`(7), `<BS>`(8), `<HT>`(9) :bulb: **horitontal tab**, `<LF>`(10) :bulb: **line break**, `<VT>`(11), `<FF>`(12), `<CR>`(13), `<SO>`(14), `<SI>`(15), `<DLE>`(16), `<DC1>`(17), `<DC2>`(18), `<DC3>`(19), `<DC4>`(20), `<NAK>`(21), `<SYN>`(22), `<ETB>`(23), `<CAN>`(24), `<EM>`(25), `<SUB>`(26), `<ESC>`(27), `<FS>`(28), `<GS>`(29), `<RS>`(30), `<US>`(31), `<DEL>`(127);
-     * Should any of the escape sequences above appear in plain text, then it can be escaped using the **backslash character** `\`.
+   * Overview
+     * `<NUL>`(0), `<SOH>`(1), `<STX>`(2), `<ETX>`(3), `<EOT>`(4), `<ENQ>`(5), `<ACK>`(6), `<BEL>`(7), `<BS>`(8)
+     * `<HT>`(9) :bulb: **horitontal tab**
+     * `<LF>`(10) :bulb: **line break**
+     * `<VT>`(11), `<FF>`(12), `<CR>`(13), `<SO>`(14), `<SI>`(15), `<DLE>`(16), `<DC1>`(17), `<DC2>`(18), `<DC3>`(19), `<DC4>`(20), `<NAK>`(21), `<SYN>`(22), `<ETB>`(23), `<CAN>`(24), `<EM>`(25), `<SUB>`(26), `<ESC>`(27), `<FS>`(28), `<GS>`(29), `<RS>`(30), `<US>`(31), `<DEL>`(127);
+   * Should any of the escape sequences above appear in plain text, then it can be escaped using the **backslash character** `\`.
      * If in a source text any of the escape sequences is already preceded by one or multiple backslash character(s) then these - 
      and only these - backslash character(s) must be doubled.
      * Here are a few examples:
@@ -89,7 +93,7 @@ A string (argument names, values and snippets) is a potentially empty sequence o
        * `"a\<HT>b"` represents the text `a<HT>b`.
        * `"a\\<HT>b"` represents a tabulator character between `a\` and `b`.
        * `"a\\\<HT>b"` represents the text `a\<HT>b`.
-     * **[:twisted_rightwards_arrows: Implementor Notes](#handling-escape-sequences)**
+   * **[:twisted_rightwards_arrows: Implementor Notes](#handling-escape-sequences)**
 
 ### §1.2 Names, values, and snippets
 
@@ -119,7 +123,7 @@ See also [§6 Reference Value Matching](#6-reference-value-matching)
 
 #### §1.2.4 Snippets
 
-An text snippet (`snippet`) is a short piece of text.
+A text snippet (`snippet`) is a short piece of text.
  * Snippets are technically **strings** (see [§1.1](#11-strings)).
  * The empty string (`""`) is a valid snippet.
  * By default, text snippets are **case-sensitive**.
@@ -131,7 +135,7 @@ Round braces **`(` `)`** are used in Audlang expressions to group a combination 
 
 ### §1.4 Whitespace
 
-Whitespace (' ', tabulator, carriage-return, line-break) is allowed anywhere outside strings to format the structure of an Audlang-expression. Occasionally, whitespace is required (see for example [AND](#41-logical-and)/[OR](#42-logical-or)).
+Whitespace (' ', tabulator, carriage-return, line-break) is allowed anywhere outside strings to format the structure of an Audlang-expression. Occasionally, whitespace is required (see for example around [AND](#41-logical-and) / [OR](#42-logical-or)).
 
 ### §1.5 Comments
 
@@ -165,7 +169,7 @@ Audlang allows placing comments before, inside and after an expression. Every co
 
 :bulb: Each of the expressions above is **logically identical** to `color = red`.
 
-:warning: **Important** :warning:
+:warning: **Important Note:**
 
  * Comments are primarily meant for debugging and temporary use. They allow excluding and including parts of an expression without deleting the content.
  * Comments are **not part of the logical expression** and **not involved in the execution** of an expression in any way.
@@ -692,8 +696,8 @@ In the little example above the query `STRICT car.color != red` **only returns r
 
  * `NOT car.color=red` returns all cars with a different color than red plus the ones where we don't know the color.
  * `argName != argValue` $\Leftrightarrow$ `NOT argName = argValue` $\Leftrightarrow$ `argName != argValue OR argName IS UNKNOWN`
- * `NOT argName IS UNKNOWN` $\Leftrightarrow$ `argName IS NOT UNKNOWN` returns all records where we don't know the value of the attribute `argName`.
- * `NOT argName IS NOT UNKNOWN` $:=$ `argName IS UNKNOWN` returns all records were we have any value for the attribute `argName`.
+ * `NOT argName IS UNKNOWN` $\Leftrightarrow$ `argName IS NOT UNKNOWN` returns all records where we know the value of the attribute `argName`.
+ * `NOT argName IS NOT UNKNOWN` $:=$ `argName IS UNKNOWN` returns all records were we don't have any value for the attribute `argName`.
  * `NOT <ALL>` $:=$ `<NONE>`
  * `NOT <NONE>` $:=$ `<ALL>`
  * `NOT NOT argName = argValue ` $\Leftrightarrow$ `argName = argValue`
@@ -703,7 +707,7 @@ In the little example above the query `STRICT car.color != red` **only returns r
 
  * `STRICT NOT car.color=red` returns all records with a different car color than red ignoring all records where we don't know the car color.
  * `STRICT argName != argValue` $\Leftrightarrow$ `STRICT NOT argName = argValue` ignores any records where the attribute `argName` is unknown.
- * `STRICT NOT argName IS UNKNOWN` $:=$ `argName IS NOT UNKNOWN` returns all records where we don't know the value of the attribute `argName`.
+ * `STRICT NOT argName IS UNKNOWN` $:=$ `argName IS NOT UNKNOWN` returns all records where we know the value of the attribute `argName`.
  * `STRICT NOT argName IS NOT UNKNOWN` $:=$ `<NONE>` does not return *any* records because *strict not* always **excludes** the unknowns.
  * `STRICT NOT <ALL>` $:=$ `<NONE>`
  * `STRICT NOT <NONE>` $:=$ `<ALL>`
@@ -780,7 +784,7 @@ The Audlang type conventions shall help implementing a plausible consistent solu
 
 ### Handling decimal conversion
 
-The reduction to 7 decimal digits reduces the effective precision but increases readability. In practical examples 7 digits is already more than to be expected. For example, if we deal with longitude and latitude values (user bought something in a shop we have the coordinates for), then 7 decimal digits would narrow her down to millimeters!
+The reduction to 7 decimal digits reduces the effective precision but increases readability. In practical examples 7 digits is already more than to be expected. For example, if we deal with longitude and latitude values (user bought something in a shop we have the coordinates for), then 7 decimal digits would narrow the position down to millimeters!
 
 :bulb: The reason why we don't encourage grouping is avoiding ambiguity. On language level all values are strings, and whenever possible no two different strings should express the same value.
 
