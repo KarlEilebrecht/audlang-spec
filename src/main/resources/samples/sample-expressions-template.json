@@ -1,0 +1,794 @@
+[
+    {
+        "group" : "basic-expressions",
+        "samples" : [
+            {
+                "id" : "empty",
+                "label" : "invalid empty text",
+                "expression" : "",
+                "invalid" : true
+            },
+            {
+                "id" : "whitespaceOrCommentOnly",
+                "label" : "invalid whitespace only text",
+                "expression" : "_",
+                "invalid" : true
+            },
+            {
+                "id" : "allExpression",
+                "label" : "match all expression",
+                "expression" : "${ALL}"
+            },
+            {
+                "id" : "noneExpression",
+                "label" : "match none expression",
+                "expression" : "${NONE}"
+            },
+            {
+                "id" : "cmpIsUnknown",
+                "label" : "is unknown check",
+                "expression" : "${ARG_NAME}_${IS}_${UNKNOWN}"
+            },
+            {
+                "id" : "cmpIsNotUnknown",
+                "label" : "is not unknown check",
+                "expression" : "${ARG_NAME}_${IS}_${NOT}_${UNKNOWN}"
+            },
+            {
+                "id" : "notCmpIsUnknown",
+                "label" : "not ... is unknown check",
+                "expression" : "${NOT}_${ARG_NAME}_${IS}_${UNKNOWN}"
+            }
+        ]
+    },
+    {
+        "group" : "weird-names-expressions",
+        "samples" : [
+            {
+                "id" : "argIsSingleBackslash",
+                "label" : "argument name is backslash only",
+                "expression" : "${ARG_NAME:\\}${OP*}${ARG_VALUE:8}"
+            },
+            {
+                "id" : "argStartsWithBackslash",
+                "label" : "argument name starts with backslash",
+                "expression" : "${ARG_NAME:\\argName}${OP*}${ARG_VALUE:8}"
+            },
+            {
+                "id" : "argContainsBackslash",
+                "label" : "argument name contains backslash",
+                "expression" : "${ARG_NAME:begin\\end}${OP*}${ARG_VALUE:8}"
+            },
+            {
+                "id" : "argContainsWeirdCharacters",
+                "label" : "argument name with weird but allowed characters",
+                "expression" : "${ARG_NAME:?+#`´'_-$^}${OP*}${ARG_VALUE:8}"
+            },
+            {
+                "id" : "quotedArgContainsWeirdCharacters",
+                "label" : "quoted argument name with weird but allowed characters",
+                "expression" : "${ARG_NAME:\"?+#`´'_-$^=!@><\"\"\"}${OP*}${ARG_VALUE:8}"
+            }
+        ]
+    },
+    {
+        "group" : "weird-values-expressions",
+        "samples" : [
+            {
+                "id" : "valueIsSingleBackslash",
+                "label" : "value is backslash only",
+                "expression" : "${ARG_NAME:argName}${OP*}${ARG_VALUE:\\}"
+            },
+            {
+                "id" : "valueStartsWithBackslash",
+                "label" : "value starts with backslash",
+                "expression" : "${ARG_NAME:argName}${OP*}${ARG_VALUE:\\value}"
+            },
+            {
+                "id" : "valueContainsBackslash",
+                "label" : "value contains backslash",
+                "expression" : "${ARG_NAME:argName}${OP*}${ARG_VALUE:valuePart1\\valuePart2}"
+            },
+            {
+                "id" : "valueContainsWeirdCharacters",
+                "label" : "value with weird but allowed characters",
+                "expression" : "${ARG_NAME:argName}${OP*}${ARG_VALUE:?+#`´'_-$^}"
+            },
+            {
+                "id" : "quotedValueContainsWeirdCharacters",
+                "label" : "quoted value with weird but allowed characters",
+                "expression" : "${ARG_NAME:argName}${OP*}${ARG_VALUE:\"?+#`´'_-$^=!@<>\"\"\"}"
+            }
+        ]
+    },
+    {
+        "group" : "special-comments",
+        "samples" : [
+            {
+                "id" : "dualCommentBefore",
+                "label" : "two or more comments precede expression",
+                "expression" : "${COMMENT:/* comment 1 */}~${COMMENT:/* comment 2 */}${ARG_NAME:argName}${OP:=}${ARG_VALUE:argValue}"
+            },
+            {
+                "id" : "dualCommentAfter",
+                "label" : "two or more comments follow expression",
+                "expression" : "${ARG_NAME:argName}${OP:=}${ARG_VALUE:argValue}${COMMENT:/* comment 1 */}~${COMMENT:/* comment 2 */}"
+            },
+            {
+                "id" : "surroundingComments",
+                "label" : "two comments or more surround expression",
+                "expression" : "${COMMENT:/* comment 1 */}~${ARG_NAME:argName}${OP}${ARG_VALUE:argValue}~${COMMENT}"
+            }
+        ]
+    },
+    {
+        "group" : "simple-comparison-expressions",
+        "samples" : [
+            {
+                "id" : "cmpValue",
+                "label" : "value comparison",
+                "expression" : "${ARG_NAME}~${OP*}~${ARG_VALUE}"
+            },
+            {
+                "id" : "cmpReference",
+                "label" : "reference comparison",
+                "expression" : "${ARG_NAME}~${OP*}~${ARG_REF}"
+            },
+            {
+                "id" : "cmpReference2",
+                "label" : "reference comparison",
+                "expression" : "${ARG_NAME}~${OP*}~${ARG_REF:@REF}"
+            },
+            {
+                "id" : "cmpStrictNotEqualsValue",
+                "label" : "strict not equals infix value comparison",
+                "expression" : "${STRICT}_${ARG_NAME}~${OP:!=}~${ARG_VALUE}"
+            },
+            {
+                "id" : "cmpStrictNotEqualsReference",
+                "label" : "strict not equals infix reference comparison",
+                "expression" : "${STRICT}_${ARG_NAME}~${OP:!=}~${ARG_REF}"
+            }
+        ]
+    },
+    {
+        "group" : "any-of-comparison-expressions",
+        "samples" : [
+            {
+                "id" : "cmpAnyOf",
+                "label" : "equals comparison against items in list",
+                "expression" : "${ARG_NAME}_${ANY}_${OF}~(${MIXED_LIST})"
+            },
+            {
+                "id" : "cmpNotAnyOf",
+                "label" : "inner not equals comparison against items in list",
+                "expression" : "${ARG_NAME}_${NOT}_${ANY}_${OF}~(${MIXED_LIST})"
+            },
+            {
+                "id" : "cmpStrictNotAnyOf",
+                "label" : "inner strict not equals comparison against items in list",
+                "expression" : "${ARG_NAME}_${STRICT}_${NOT}_${ANY}_${OF}~(${MIXED_LIST})"
+            },
+            {
+                "id" : "cmpStrictNotAnyOf2",
+                "label" : "inner strict not equals comparison against items in list",
+                "expression" : "${ARG_NAME}_${STRICT}_${NOT}_${ANY}_${OF}~(${ARG_VALUE:a}, ${ARG_REF:@r})"
+            }
+        ]
+    },
+    {
+        "group" : "contains-text-expressions",
+        "samples" : [
+            {
+                "id" : "cmpContains",
+                "label" : "contains given text snippet",
+                "expression" : "${ARG_NAME}_${CONTAINS}_${SNIPPET}"
+            },
+            {
+                "id" : "cmpNotContains",
+                "label" : "inner not contains given text snippet",
+                "expression" : "${ARG_NAME}_${NOT}_${CONTAINS}_${SNIPPET}"
+            },
+            {
+                "id" : "cmpStrictNotContains",
+                "label" : "inner strict not contains given text snippet",
+                "expression" : "${ARG_NAME}_${STRICT}_${NOT}_${CONTAINS}_${SNIPPET}"
+            },
+            {
+                "id" : "cmpStrictNotContains2",
+                "label" : "inner strict not contains given text snippet",
+                "expression" : "${ARG_NAME}_${STRICT}_${NOT}_${CONTAINS}_${SNIPPET:\"search text\"}"
+            }
+        ]
+    },
+    {
+        "group" : "contains-any-of-text-expressions",
+        "samples" : [
+            {
+                "id" : "cmpContainsAnyOf",
+                "label" : "contains any of the given text snippets",
+                "expression" : "${ARG_NAME}_${CONTAINS}_${ANY}_${OF}~(${SNIPPET_LIST})"
+            },
+            {
+                "id" : "cmpNotContainsAnyOf",
+                "label" : "inner not contains any of the given text snippets",
+                "expression" : "${ARG_NAME}_${NOT}_${CONTAINS}_${ANY}_${OF}~(${SNIPPET_LIST})"
+            },
+            {
+                "id" : "cmpStrictNotContainsAnyOf",
+                "label" : "inner strict not contains any of the given text snippets",
+                "expression" : "${ARG_NAME}_${STRICT}_${NOT}_${CONTAINS}_${ANY}_${OF}~(${SNIPPET_LIST})"
+            }
+        ]
+    },
+    {
+        "group" : "between-expressions",
+        "samples" : [
+            {
+                "id" : "cmpBetween",
+                "label" : "check argument between value 1 and value 2",
+                "expression" : "${ARG_NAME}_${BETWEEN}~(${ARG_VALUE}~,~${ARG_VALUE}~)"
+            },
+            {
+                "id" : "cmpNotBetween",
+                "label" : "check argument not between value 1 and value 2",
+                "expression" : "${ARG_NAME}_${NOT}_${BETWEEN}~(${ARG_VALUE}~,~${ARG_VALUE}~)"
+            },
+            {
+                "id" : "cmpStrictNotBetween",
+                "label" : "check argument strict not between value 1 and value 2",
+                "expression" : "${ARG_NAME}_${STRICT}_${NOT}_${BETWEEN}~(${ARG_VALUE}~,~${ARG_VALUE}~)"
+            }
+        ]
+    },
+    {
+        "group" : "curb-expressions",
+        "samples" : [
+            {
+                "id" : "curb_2m",
+                "label" : "curb expression, two members",
+                "expression" : "${CURB} ( ${OPAQUE_EXPRESSION}_${OR}_${OPAQUE_EXPRESSION}) ${OP} ${BOUND}"
+            },
+            {
+                "id" : "curb_3m",
+                "label" : "curb expression, three members",
+                "expression" : "${CURB} ( ${OPAQUE_EXPRESSION}_${OR}_${OPAQUE_EXPRESSION}_${OR}_${OPAQUE_EXPRESSION})~${OP}~${BOUND}"
+            },
+            {
+                "id" : "curb_4m",
+                "label" : "curb expression, four members",
+                "expression" : "${CURB} ( ${OPAQUE_EXPRESSION}_${OR}_${OPAQUE_EXPRESSION}_${OR}_${OPAQUE_EXPRESSION}_${OR}_${OPAQUE_EXPRESSION})~${OP}~${BOUND:17}"
+            }
+        ]
+    },
+    {
+        "group" : "special-invalid-curb-expressions",
+        "samples" : [
+            {
+                "id" : "curbBoundMissing",
+                "label" : "invalid curb expression without bound",
+                "expression" : "${CURB!}(a=1 OR a=2)",
+                "invalid" : true
+            },
+            {
+                "id" : "curbBoundLeadingZero",
+                "label" : "invalid curb expression with incorrect leading zero bound",
+                "expression" : "${CURB!}(a=1 OR a=2) > 02",
+                "invalid" : true
+            },
+            {
+                "id" : "curbNegativeBound",
+                "label" : "invalid curb expression with negative bound",
+                "expression" : "${CURB!}(a=1 OR a=2) = -2",
+                "invalid" : true
+            },
+            {
+                "id" : "curbBadBound",
+                "label" : "invalid curb expression with bad bound",
+                "expression" : "${CURB!}(a=1 OR a=2) < F",
+                "invalid" : true
+            },
+            {
+                "id" : "curbEmpty",
+                "label" : "invalid empty curb expression",
+                "expression" : "${CURB!} (~) != 2",
+                "invalid" : true
+            },
+            {
+                "id" : "curbSingle",
+                "label" : "invalid single-member curb expression",
+                "expression" : "${CURB!} (a=1) > 0",
+                "invalid" : true
+            },
+            {
+                "id" : "curbAnd",
+                "label" : "invalid curb expression with and-member",
+                "expression" : "${CURB!} (a=1 AND b=2) = 0",
+                "invalid" : true
+            }
+        ]
+    },
+    {
+        "group" : "simple-and-expressions",
+        "samples" : [
+            {
+                "id" : "and_2m_novar",
+                "label" : "simple and, two members",
+                "expression" : "${ARG_NAME:argName1} ${OP:=} ${ARG_VALUE:argValue1} ${AND} ${ARG_NAME:argName2} ${OP:=} ${ARG_VALUE:argValue2}",
+                "composite" : true
+            },
+            {
+                "id" : "and_2m",
+                "label" : "simple and, two members",
+                "expression" : "${ARG_NAME:argName}~${OP}~${ARG_VALUE:argValue}_${AND}_${ARG_NAME:argName2}~${OP:=}~${ARG_VALUE:argValue2}",
+                "composite" : true
+            },
+            {
+                "id" : "and_3m_novar",
+                "label" : "simple and, three members",
+                "expression" : "${ARG_NAME:argName1} ${OP:=} ${ARG_VALUE:argValue1} ${AND} ${ARG_NAME:argName2} ${OP:<} ${ARG_VALUE:argValue2} ${AND} ${ARG_NAME:argName3} ${OP:>} ${ARG_VALUE:argValue3}",
+                "composite" : true
+            },
+            {
+                "id" : "and_3m",
+                "label" : "simple and, three members",
+                "expression" : "${ARG_NAME:\"argument name\"}~${OP:=}~${ARG_VALUE:\"the value\"}_${AND}_${ARG_NAME:otherArg}~${OP}~${ARG_VALUE:\"other value\"}_${AND}_${ARG_NAME:furtherArg}~${OP:=}~${ARG_VALUE:\"further value\"}",
+                "composite" : true
+            },
+            {
+                "id" : "and_4m",
+                "label" : "simple and, four members",
+                "expression" : "${ARG_NAME:argName1}~${OP:=}~${ARG_VALUE:argValue1}_${AND}_${ARG_NAME:argName2}~${OP}~${ARG_VALUE:23}_${AND}_${ARG_NAME:argName3}~${OP:=}~${ARG_VALUE:argValue3}_${AND}_${ARG_NAME:argName4}~${OP}~${ARG_VALUE:-10234}",
+                "composite" : true
+            }
+        ]
+    },
+    {
+        "group" : "simple-or-expressions",
+        "samples" : [
+            {
+                "id" : "or_2m_novar",
+                "label" : "simple or, two members",
+                "expression" : "${ARG_NAME:argName1} ${OP:=} ${ARG_VALUE:argValue1} ${OR} ${ARG_NAME:argName2} ${OP:=} ${ARG_VALUE:argValue2}",
+                "composite" : true
+            },
+            {
+                "id" : "or_2m",
+                "label" : "simple or, two members",
+                "expression" : "${ARG_NAME:\"5\"}~${OP}~${ARG_VALUE:argValue}_${OR}_${ARG_NAME:\"argName 17\"}~${OP:=}~${ARG_VALUE:24}",
+                "composite" : true
+            },
+            {
+                "id" : "or_3m_novar",
+                "label" : "simple or, three members",
+                "expression" : "${ARG_NAME:argName1} ${OP:=} ${ARG_VALUE:argValue1} ${OR} ${ARG_NAME:argName2} ${OP:<} ${ARG_VALUE:argValue2} ${OR} ${ARG_NAME:argName3} ${OP:>} ${ARG_VALUE:argValue3}",
+                "composite" : true
+            },
+            {
+                "id" : "or_3m",
+                "label" : "simple or, three members",
+                "expression" : "${ARG_NAME:argName1}~${OP:=}~${ARG_VALUE:argValue1}_${OR}_${ARG_NAME:argName2}~${OP}~${ARG_VALUE:argValue2}_${OR}_${ARG_NAME:argName3}~${OP:=}~${ARG_VALUE:0}",
+                "composite" : true
+            },
+            {
+                "id" : "or_4m",
+                "label" : "simple or, four members",
+                "expression" : "${ARG_NAME:\"<\"}~${OP:=}~${ARG_VALUE:\"=\"}_${OR}_${ARG_NAME:argName7}~${OP}~${ARG_VALUE:\"\"}_${OR}_${ARG_NAME:argName}~${OP:=}~${ARG_VALUE:argValue}_${OR}_${ARG_NAME:argName3}~${OP}~${ARG_VALUE:8}",
+                "composite" : true
+            }
+        ]
+    },
+    {
+        "group" : "complex-and-expressions",
+        "samples" : [
+            {
+                "id" : "and_complex_2m",
+                "label" : "complex and, two generated members",
+                "expression" : "${OPAQUE_EXPRESSION}_${AND}_${OPAQUE_EXPRESSION}",
+                "composite" : true
+            },
+            {
+                "id" : "and_complex_3m",
+                "label" : "complex and, three generated members",
+                "expression" : "${OPAQUE_EXPRESSION}_${AND}_${OPAQUE_EXPRESSION}_${AND}_${OPAQUE_EXPRESSION}",
+                "composite" : true
+            },
+            {
+                "id" : "and_complex_4m",
+                "label" : "complex and, four generated members",
+                "expression" : "${OPAQUE_EXPRESSION}_${AND}_${OPAQUE_EXPRESSION}_${AND}_${OPAQUE_EXPRESSION}_${AND}_${OPAQUE_EXPRESSION}",
+                "composite" : true
+            }
+        ]
+    },
+    {
+        "group" : "complex-or-expressions",
+        "samples" : [
+            {
+                "id" : "or_complex_2m",
+                "label" : "complex or, two generated members",
+                "expression" : "${OPAQUE_EXPRESSION}_${OR}_${OPAQUE_EXPRESSION}",
+                "composite" : true
+            },
+            {
+                "id" : "or_complex_3m",
+                "label" : "complex or, three generated members",
+                "expression" : "${OPAQUE_EXPRESSION}_${OR}_${OPAQUE_EXPRESSION}_${OR}_${OPAQUE_EXPRESSION}",
+                "composite" : true
+            },
+            {
+                "id" : "or_complex_4m",
+                "label" : "complex or, four generated members",
+                "expression" : "${OPAQUE_EXPRESSION}_${OR}_${OPAQUE_EXPRESSION}_${OR}_${OPAQUE_EXPRESSION}_${OR}_${OPAQUE_EXPRESSION}",
+                "composite" : true
+            }
+        ]
+    },
+    {
+        "group" : "complex-nested-expressions",
+        "samples" : [
+            {
+                "id" : "andOfAnd1",
+                "label" : "and with a trailing and-composite",
+                "expression" : "${OPAQUE_EXPRESSION}_${AND}_(~${OPAQUE_EXPRESSION}_${AND}_${OPAQUE_EXPRESSION}~)",
+                "composite" : true
+            },
+            {
+                "id" : "andOfAnd2",
+                "label" : "and with a leading and-composite",
+                "expression" : "(~${OPAQUE_EXPRESSION}_${AND}_${OPAQUE_EXPRESSION}~)_${AND}_${OPAQUE_EXPRESSION}",
+                "composite" : true
+            },
+            {
+                "id" : "andOfAnd3",
+                "label" : "and joining two and-composites",
+                "expression" : "(~${OPAQUE_EXPRESSION}_${AND}_${OPAQUE_EXPRESSION}~)_${AND}_(~${OPAQUE_EXPRESSION}_${AND}_${OPAQUE_EXPRESSION}~)",
+                "composite" : true
+            },
+            {
+                "id" : "andOfOr1",
+                "label" : "and with a trailing or-composite",
+                "expression" : "${OPAQUE_EXPRESSION}_${AND}_(~${OPAQUE_EXPRESSION}_${OR}_${OPAQUE_EXPRESSION}~)",
+                "composite" : true
+            },
+            {
+                "id" : "andOfOr2",
+                "label" : "and with a leading or-composite",
+                "expression" : "(~${OPAQUE_EXPRESSION}_${OR}_${OPAQUE_EXPRESSION}~)_${AND}_${OPAQUE_EXPRESSION}",
+                "composite" : true
+            },
+            {
+                "id" : "andOfOr3",
+                "label" : "and joining or-composite and and-composite",
+                "expression" : "(~${OPAQUE_EXPRESSION}_${OR}_${OPAQUE_EXPRESSION}~)_${AND}_(~${OPAQUE_EXPRESSION}_${AND}_${OPAQUE_EXPRESSION}~)",
+                "composite" : true
+            },
+            {
+                "id" : "andOfOr4",
+                "label" : "and joining and-composite and or-composite",
+                "expression" : "(~${OPAQUE_EXPRESSION}_${AND}_${OPAQUE_EXPRESSION}~)_${AND}_(~${OPAQUE_EXPRESSION}_${OR}_${OPAQUE_EXPRESSION}~)",
+                "composite" : true
+            },
+            {
+                "id" : "andOfOr5",
+                "label" : "and joining two or-composites",
+                "expression" : "(~${OPAQUE_EXPRESSION}_${OR}_${OPAQUE_EXPRESSION}~)_${AND}_(~${OPAQUE_EXPRESSION}_${OR}_${OPAQUE_EXPRESSION}~)",
+                "composite" : true
+            },
+            {
+                "id" : "orOfOr1",
+                "label" : "or with a trailing or-composite",
+                "expression" : "${OPAQUE_EXPRESSION}_${OR}_(~${OPAQUE_EXPRESSION}_${OR}_${OPAQUE_EXPRESSION}~)",
+                "composite" : true
+            },
+            {
+                "id" : "orOfOr2",
+                "label" : "or with a leading or-composite",
+                "expression" : "(~${OPAQUE_EXPRESSION}_${OR}_${OPAQUE_EXPRESSION}~)_${OR}_${OPAQUE_EXPRESSION}",
+                "composite" : true
+            },
+            {
+                "id" : "orOfOr3",
+                "label" : "or joining two or-composites",
+                "expression" : "(~${OPAQUE_EXPRESSION}_${OR}_${OPAQUE_EXPRESSION}~)_${OR}_(~${OPAQUE_EXPRESSION}_${OR}_${OPAQUE_EXPRESSION}~)",
+                "composite" : true
+            },
+            {
+                "id" : "orOfAnd1",
+                "label" : "or with a trailing and-composite",
+                "expression" : "${OPAQUE_EXPRESSION}_${OR}_(~${OPAQUE_EXPRESSION}_${AND}_${OPAQUE_EXPRESSION}~)",
+                "composite" : true
+            },
+            {
+                "id" : "orOfAnd2",
+                "label" : "or with a leading and-composite",
+                "expression" : "(~${OPAQUE_EXPRESSION}_${AND}_${OPAQUE_EXPRESSION}~)_${OR}_${OPAQUE_EXPRESSION}",
+                "composite" : true
+            },
+            {
+                "id" : "orOfAnd3",
+                "label" : "or joining or-composite and and-composite",
+                "expression" : "(~${OPAQUE_EXPRESSION}_${OR}_${OPAQUE_EXPRESSION}~)_${OR}_(~${OPAQUE_EXPRESSION}_${AND}_${OPAQUE_EXPRESSION}~)",
+                "composite" : true
+            },
+            {
+                "id" : "orOfAnd4",
+                "label" : "or joining and-composite and or-composite",
+                "expression" : "(~${OPAQUE_EXPRESSION}_${AND}_${OPAQUE_EXPRESSION}~)_${OR}_(~${OPAQUE_EXPRESSION}_${OR}_${OPAQUE_EXPRESSION}~)",
+                "composite" : true
+            },
+            {
+                "id" : "orOfAnd5",
+                "label" : "or joining two and-composites",
+                "expression" : "(~${OPAQUE_EXPRESSION}_${AND}_${OPAQUE_EXPRESSION}~)_${OR}_(~${OPAQUE_EXPRESSION}_${AND}_${OPAQUE_EXPRESSION}~)",
+                "composite" : true
+            },
+            {
+                "id" : "or_2m_novar_AND_or_3m_novar_AND_basic",
+                "label" : "AND with two simple ORs and a basic expression",
+                "expression" : "${EXPRESSION:or_2m_novar} ${AND} ${EXPRESSION:or_3m_novar} ${AND} ~${EXPRESSION:basic-expressions}",
+                "composite" : true
+            }
+        ]
+    },
+    {
+        "group" : "complex-deeply-nested-expressions",
+        "samples" : [
+            {
+                "id" : "deepAndOfAnd1",
+                "label" : "and with a trailing nested and-composite",
+                "expression" : "${COMPOSITE_EXPRESSION}_${AND}_(~${COMPOSITE_EXPRESSION}_${AND}_${COMPOSITE_EXPRESSION}~)",
+                "composite" : true
+            },
+            {
+                "id" : "deepAndOfAnd2",
+                "label" : "and with a leading nested and-composite",
+                "expression" : "(~${COMPOSITE_EXPRESSION}_${AND}_${COMPOSITE_EXPRESSION}~)_${AND}_${COMPOSITE_EXPRESSION}",
+                "composite" : true
+            },
+            {
+                "id" : "deepAndOfAnd3",
+                "label" : "and joining two nested and-composites",
+                "expression" : "(~${COMPOSITE_EXPRESSION}_${AND}_${COMPOSITE_EXPRESSION}~)_${AND}_(~${COMPOSITE_EXPRESSION}_${AND}_${COMPOSITE_EXPRESSION}~)",
+                "composite" : true
+            },
+            {
+                "id" : "deepAndOfOr1",
+                "label" : "and with a trailing nested or-composite",
+                "expression" : "${COMPOSITE_EXPRESSION}_${AND}_(~${COMPOSITE_EXPRESSION}_${OR}_${COMPOSITE_EXPRESSION}~)",
+                "composite" : true
+            },
+            {
+                "id" : "deepAndOfOr2",
+                "label" : "and with a leading nested or-composite",
+                "expression" : "(~${COMPOSITE_EXPRESSION}_${OR}_${COMPOSITE_EXPRESSION}~)_${AND}_${COMPOSITE_EXPRESSION}",
+                "composite" : true
+            },
+            {
+                "id" : "deepAndOfOr3",
+                "label" : "and joining nested or-composite and and-composite",
+                "expression" : "(~${COMPOSITE_EXPRESSION}_${OR}_${COMPOSITE_EXPRESSION}~)_${AND}_(~${COMPOSITE_EXPRESSION}_${AND}_${COMPOSITE_EXPRESSION}~)",
+                "composite" : true
+            },
+            {
+                "id" : "deepAndOfOr4",
+                "label" : "and joining nested and-composite and or-composite",
+                "expression" : "(~${COMPOSITE_EXPRESSION}_${AND}_${COMPOSITE_EXPRESSION}~)_${AND}_(~${COMPOSITE_EXPRESSION}_${OR}_${COMPOSITE_EXPRESSION}~)",
+                "composite" : true
+            },
+            {
+                "id" : "deepAndOfOr5",
+                "label" : "and joining two nested or-composites",
+                "expression" : "(~${COMPOSITE_EXPRESSION}_${OR}_${COMPOSITE_EXPRESSION}~)_${AND}_(~${COMPOSITE_EXPRESSION}_${OR}_${COMPOSITE_EXPRESSION}~)",
+                "composite" : true
+            },
+            {
+                "id" : "deepOrOfOr1",
+                "label" : "or with a trailing nested or-composite",
+                "expression" : "${COMPOSITE_EXPRESSION}_${OR}_(~${COMPOSITE_EXPRESSION}_${OR}_${COMPOSITE_EXPRESSION}~)",
+                "composite" : true
+            },
+            {
+                "id" : "deepOrOfOr2",
+                "label" : "or with a leading nested or-composite",
+                "expression" : "(~${COMPOSITE_EXPRESSION}_${OR}_${COMPOSITE_EXPRESSION}~)_${OR}_${COMPOSITE_EXPRESSION}",
+                "composite" : true
+            },
+            {
+                "id" : "deepOrOfOr3",
+                "label" : "or joining two nested or-composites",
+                "expression" : "(~${COMPOSITE_EXPRESSION}_${OR}_${COMPOSITE_EXPRESSION}~)_${OR}_(~${COMPOSITE_EXPRESSION}_${OR}_${COMPOSITE_EXPRESSION}~)",
+                "composite" : true
+            },
+            {
+                "id" : "deepOrOfAnd1",
+                "label" : "or with a trailing nested and-composite",
+                "expression" : "${COMPOSITE_EXPRESSION}_${OR}_(~${COMPOSITE_EXPRESSION}_${AND}_${COMPOSITE_EXPRESSION}~)",
+                "composite" : true
+            },
+            {
+                "id" : "deepOrOfAnd2",
+                "label" : "or with a leading nested and-composite",
+                "expression" : "(~${COMPOSITE_EXPRESSION}_${AND}_${COMPOSITE_EXPRESSION}~)_${OR}_${COMPOSITE_EXPRESSION}",
+                "composite" : true
+            },
+            {
+                "id" : "deepOrOfAnd3",
+                "label" : "or joining nested or-composite and and-composite",
+                "expression" : "(~${COMPOSITE_EXPRESSION}_${OR}_${COMPOSITE_EXPRESSION}~)_${OR}_(~${COMPOSITE_EXPRESSION}_${AND}_${COMPOSITE_EXPRESSION}~)",
+                "composite" : true
+            },
+            {
+                "id" : "deepOrOfAnd4",
+                "label" : "or joining nested and-composite and or-composite",
+                "expression" : "(~${COMPOSITE_EXPRESSION}_${AND}_${COMPOSITE_EXPRESSION}~)_${OR}_(~${COMPOSITE_EXPRESSION}_${OR}_${COMPOSITE_EXPRESSION}~)",
+                "composite" : true
+            },
+            {
+                "id" : "deepOrOfAnd5",
+                "label" : "or joining two nested and-composites",
+                "expression" : "(~${COMPOSITE_EXPRESSION}_${AND}_${COMPOSITE_EXPRESSION}~)_${OR}_(~${COMPOSITE_EXPRESSION}_${AND}_${COMPOSITE_EXPRESSION}~)",
+                "composite" : true
+            }
+        ]
+    },
+    {
+        "group" : "missing-whitespace-or-comment",
+        "samples" : [
+            {
+                "id" : "andMissingWhitespaceOrCommentBefore",
+                "label" : "missing ",
+                "expression" : "(${ARG_NAME:arg1}${OP:=}${ARG_VALUE:value2})${AND}_${ARG_NAME:arg1}${OP:=}${ARG_VALUE:value2}",
+                "invalid" : true,
+                "composite" : true
+            },
+            {
+                "id" : "andMissingWhitespaceOrCommentAfter",
+                "label" : "missing ",
+                "expression" : "${ARG_NAME:arg1}${OP:=}${ARG_VALUE:value2}_${AND}(${ARG_NAME:arg1}${OP:=}${ARG_VALUE:value2})",
+                "invalid" : true,
+                "composite" : true
+            },
+            {
+                "id" : "orMissingWhitespaceOrCommentBefore",
+                "label" : "missing ",
+                "expression" : "(${ARG_NAME:arg1}${OP:=}${ARG_VALUE:value2})${OR}_${ARG_NAME:arg1}${OP:=}${ARG_VALUE:value2}",
+                "invalid" : true,
+                "composite" : true
+            },
+            {
+                "id" : "orMissingWhitespaceOrCommentAfter",
+                "label" : "missing ",
+                "expression" : "${ARG_NAME:arg1}${OP:=}${ARG_VALUE:value2}_${OR}(${ARG_NAME:arg1}${OP:=}${ARG_VALUE:value2})",
+                "invalid" : true,
+                "composite" : true
+            }
+        ]
+    },
+    {
+        "group" : "complex-deeply-nested-curb-expressions",
+        "samples" : [
+            {
+                "id" : "curb_nested1",
+                "label" : "curb expression with complex members",
+                "expression" : "${CURB!} ( (${COMPOSITE_EXPRESSION})_${OR!}_(~${COMPOSITE_EXPRESSION}~)_${OR!}_(${COMPOSITE_EXPRESSION})) ${OP} ${BOUND}"
+            },
+            {
+                "id" : "curb_nested2",
+                "label" : "curb expression, three members",
+                "expression" : "${CURB!} ( (${OPAQUE_EXPRESSION})_${OR!}_(~${OPAQUE_EXPRESSION}~)_${OR!}_(${CURB!} ( (${COMPOSITE_EXPRESSION})_${OR!}_(~${COMPOSITE_EXPRESSION}~)_${OR!}_(${COMPOSITE_EXPRESSION})) ${OP} ${BOUND})) ${OP} ${BOUND}"
+            }
+        ]
+    },
+    {
+        "group" : "extra-braces",
+        "samples" : [
+            {
+                "id" : "extra_braces_around_basic",
+                "label" : "basic expression with extra braces",
+                "expression" : "(~${EXPRESSION:basic-expressions}~)"
+            },
+            {
+                "id" : "double_extra_braces_around_basic",
+                "label" : "basic expression with two times extra braces",
+                "expression" : "(~(${EXPRESSION:basic-expressions})~)"
+            },
+            {
+                "id" : "extra_braces_around_complex",
+                "label" : "complex expression with extra braces",
+                "expression" : "(~${EXPRESSION:basic-expressions}~)"
+            },
+            {
+                "id" : "extra_braces_very_complex",
+                "label" : "very complex nested expression with extra braces on different levels",
+                "expression" : "(((${EXPRESSION:complex-deeply-nested-expressions})) ${AND} (((${EXPRESSION:complex-deeply-nested-expressions})) ${OR} ((${EXPRESSION:complex-deeply-nested-expressions}))))"
+            },
+            {
+                "id" : "extra_braces_around_basic_missing_close",
+                "label" : "basic expression with extra braces",
+                "expression" : "(~${EXPRESSION:basic-expressions}~",
+                "invalid" : true
+            },
+            {
+                "id" : "double_extra_braces_around_basic_close_too_much",
+                "label" : "basic expression with two times extra braces",
+                "expression" : "~(${EXPRESSION:basic-expressions})~)",
+                "invalid" : true
+            },
+            {
+                "id" : "extra_braces_very_complex_bad_close",
+                "label" : "very complex nested expression with extra braces on different levels",
+                "expression" : "((${EXPRESSION:complex-deeply-nested-expressions})) ${AND} (((${EXPRESSION:complex-deeply-nested-expressions}))) ${OR} ((${EXPRESSION:complex-deeply-nested-expressions})))",
+                "invalid" : true
+            }
+        ]
+    },
+    {
+        "group" : "nice-comparison-simple-positive",
+        "samples" : [
+            {
+                "id" : "nice_yearEq",
+                "label" : "year=2024",
+                "expression" : "${ARG_NAME:year}${OP:=}${ARG_VALUE:2024}"
+            },
+            {
+                "id" : "nice_colorEq",
+                "label" : "color=red",
+                "expression" : "${ARG_NAME:color}${OP:=}${ARG_VALUE:red}"
+            },
+            {
+                "id" : "nice_fabricEq",
+                "label" : "fabric=cotton",
+                "expression" : "${ARG_NAME:fabric}${OP:=}${ARG_VALUE:cotton}"
+            },
+            {
+                "id" : "nice_brandEq",
+                "label" : "brand=Mandalay Corp.",
+                "expression" : "${ARG_NAME:brand}${OP:=}${ARG_VALUE:\"Mandalay Corp.\"}"
+            }
+            
+        ]
+    },
+    {
+        "group" : "nice-comparison-simple-negative",
+        "samples" : [
+            {
+                "id" : "nice_yearNotEq",
+                "label" : "year=2024",
+                "expression" : "${ARG_NAME:year}${OP:!=}${ARG_VALUE:2024}"
+            },
+            {
+                "id" : "nice_colorNotEq",
+                "label" : "color!=red",
+                "expression" : "${ARG_NAME:color}${OP:!=}${ARG_VALUE:red}"
+            },
+            {
+                "id" : "nice_fabricNotEq",
+                "label" : "fabric!=cotton",
+                "expression" : "${ARG_NAME:fabric}${OP:!=}${ARG_VALUE:cotton}"
+            },
+            {
+                "id" : "nice_brandNotEq",
+                "label" : "brand!=Mandalay Corp.",
+                "expression" : "${ARG_NAME:brand}${OP:!=}${ARG_VALUE:\"Mandalay Corp.\"}"
+            }
+            
+        ]
+    },
+    {
+        "group" : "nice-examples-complex1",
+        "samples" : [
+            {
+                "id" : "category_or_one_other",
+                "label" : "category=extra OR one simple positive",
+                "expression" : "${ARG_NAME:category}${OP:=}${ARG_VALUE:extra} ${OR!} ${EXPRESSION*:nice-comparison-simple-positive}"
+            },
+            {
+                "id" : "not_category_and_not_one_other",
+                "label" : "category!=extra AND one simple negative",
+                "expression" : "${NOT!} ${ARG_NAME:category}${OP:=}${ARG_VALUE:extra} ${AND!} ${EXPRESSION*:nice-comparison-simple-negative}"
+            }
+        ]
+    }
+    
+]
