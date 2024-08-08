@@ -9,7 +9,7 @@ The Audience Definition Language (Audlang) is a common expression language for d
 
 This specification is meant for implementers and users of the language. The document is organized in chapters covering the different language features. To keep the core specification concise, side notes (motivation, explanation) have been moved into the appendix.
 
-Audlang is defined as an [ANTLR](https://antlr.org)-grammar ([Audlang.g4](../src/main/antlr4/Audlang.g4)) with additional definitions and conventions explained in this specification.
+Audlang is defined as an [ANTLR](https://www.antlr.org/)-grammar ([Audlang.g4](../src/main/antlr4/Audlang.g4)) with additional definitions and conventions explained in this specification.
 
 Throughout this document we will use the following notation:
 
