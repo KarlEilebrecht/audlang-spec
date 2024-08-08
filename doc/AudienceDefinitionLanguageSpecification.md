@@ -14,10 +14,10 @@ Audlang is defined as an [ANTLR](https://antlr.org)-grammar ([Audlang.g4](../src
 Throughout this document we will use the following notation:
 
 * **Audlang** will be used as an abbreviation for *Audience Definition Language*.
-* `argName` will be used to represent any **argument name** (attribute), e.g., "country" ([§1.2.1](#%C2%A7121-argument-names)).
-* `argValue` will be used to represent any **argument value**, e.g., "Denmark" ([§1.2.2](#%C2%A7122-argument-values)).
-* `snippet` stands for any piece of text ([§1.2.4](#%C2%A7124-snippets)).
-* `expr` stands for any other Audlang-expression ([§3](#%C2%A73-basic-expressions), [§4](#%C2%A74-composite-expressions)).
+* `argName` will be used to represent any **argument name** (attribute), e.g., "country" ([§1.2.1](#121-argument-names)).
+* `argValue` will be used to represent any **argument value**, e.g., "Denmark" ([§1.2.2](#122-argument-values)).
+* `snippet` stands for any piece of text ([§1.2.4](#124-snippets)).
+* `expr` stands for any other Audlang-expression ([§3](#3-basic-expressions), [§4](#4-composite-expressions)).
 * The term **base audience** refers to the entirety of available records in a system we can make selections on with certain criteria.
 * The term **population** refers to virtual set of people in the real world a system's base audience is meant to reflect.
 * **:bulb: Hint** Advice or clue in the current context.
@@ -27,27 +27,27 @@ Throughout this document we will use the following notation:
 
 ## Table of Contents
 
-- [§1 General Definitions](#%C2%A71-general-definitions)
-- [§2 Type Conventions](#%C2%A72-type-conventions)
-- [§3 Basic Expressions](#%C2%A73-basic-expressions)
-     - [§3.1 Equals](#%C2%A731-equals)
-     - [§3.2 Not Equals](#%C2%A732-not-equals)
-     - [§3.3 Less Than and Greater Than](#%C2%A733-less-than-and-greater-than)
-     - [§3.4 Between](#%C2%A734-between)
-     - [§3.5 Any of](#%C2%A735-any-of)
-     - [§3.6 Contains text snippet](#%C2%A736-contains-text-snippet)
-     - [§3.7 Contains Any Of text snippet list](#%C2%A737-contains-any-of-text-snippet-list)
-     - [§3.8 Is Not Unknown](#%C2%A738-is-not-unknown)
-     - [§3.9 All and None](#%C2%A739-all-and-none)
-- [§4 Composite Expressions](#%C2%A74-composite-expressions)
-     - [§4.1 Logical And](#%C2%A741-logical-and)
-     - [§4.2 Logical Or](#%C2%A742-logical-or)
-     - [§4.3 Curbed Or](#%C2%A743-curbed-or)
-- [§5 Negation](#%C2%A75-negation)
-     - [§5.1 Default Negation](#%C2%A751-default-negation)
-     - [§5.2 Strict Negation](#%C2%A752-strict-negation)
-- [§6 Reference Value Matching](#%C2%A76-reference-value-matching)
-- [§7 Audlang and Collection Attributes](#%C2%A77-audlang-and-collection-attributes)
+- [§1 General Definitions](#1-general-definitions)
+- [§2 Type Conventions](#2-type-conventions)
+- [§3 Basic Expressions](#3-basic-expressions)
+     - [§3.1 Equals](#31-equals)
+     - [§3.2 Not Equals](#32-not-equals)
+     - [§3.3 Less Than and Greater Than](#33-less-than-and-greater-than)
+     - [§3.4 Between](#34-between)
+     - [§3.5 Any of](#35-any-of)
+     - [§3.6 Contains text snippet](#36-contains-text-snippet)
+     - [§3.7 Contains Any Of text snippet list](#37-contains-any-of-text-snippet-list)
+     - [§3.8 Is Not Unknown](#38-is-not-unknown)
+     - [§3.9 All and None](#39-all-and-none)
+- [§4 Composite Expressions](#4-composite-expressions)
+     - [§4.1 Logical And](#41-logical-and)
+     - [§4.2 Logical Or](#42-logical-or)
+     - [§4.3 Curbed Or](#43-curbed-or)
+- [§5 Negation](#5-negation)
+     - [§5.1 Default Negation](#51-default-negation)
+     - [§5.2 Strict Negation](#52-strict-negation)
+- [§6 Reference Value Matching](#6-reference-value-matching)
+- [§7 Audlang and Collection Attributes](#7-audlang-and-collection-attributes)
 - [Appendix](#appendix)
     - [Common Notes](#common-notes)
     - [Implementor Notes](#implementor-notes)
@@ -59,8 +59,8 @@ Throughout this document we will use the following notation:
  * An **Expression** is a single Audlang-instruction or a composite of Audlang-instructions that forms a filter to select an audience from the base audience of a system.
  * Expressions can be composed of any other expressions with **unlimited nesting**. 
  * Audlang **syntax** is **case-insensitive**.
- * Audlang is **type-agnostic**. On the language level all [argument values](#%C2%A7122-argument-values) are **strings** (see [§1.1](#%C2%A711-strings)).
-   * Audlang defines **type conventions** (see [§2](#%C2%A72-type-conventions)) to encourage *best practice* for typed values.
+ * Audlang is **type-agnostic**. On the language level all [argument values](#122-argument-values) are **strings** (see [§1.1](#11-strings)).
+   * Audlang defines **type conventions** (see [§2](#2-type-conventions)) to encourage *best practice* for typed values.
  
 ### §1.1 Strings
 
@@ -96,7 +96,7 @@ A string (argument names, values and snippets) is a potentially empty sequence o
 #### §1.2.1 Argument Names
 
 An argument name (`argName`) is the name of any attribute of a system's base audience.
- * Argument names are technically **strings** (see [§1.1](#%C2%A711-strings)).
+ * Argument names are technically **strings** (see [§1.1](#11-strings)).
  * Argument names **must not be empty**.
  * By default, argument names are **case-sensitive**.
 
@@ -105,7 +105,7 @@ An argument name (`argName`) is the name of any attribute of a system's base aud
 #### §1.2.2 Argument Values
 
 An argument value (`argValue`) is the value of any attribute of a system's base audience.
- * Argument values are technically **strings** (see [§1.1](#%C2%A711-strings)).
+ * Argument values are technically **strings** (see [§1.1](#11-strings)).
  * The empty string (`""`) is a valid argument value.
  * By default, argument values are **case-sensitive**.
 
@@ -115,12 +115,12 @@ An argument value (`argValue`) is the value of any attribute of a system's base 
 
 Certain Audlang-features allow referencing another argument name (i.g., for comparison). An argument reference (`argRef`) is an `@`-symbol immediately followed by an `argName` (e.g., `@color`, `@"favorite color"`).
 
-See also [§6 Reference Value Matching](#%C2%A76-reference-value-matching)
+See also [§6 Reference Value Matching](#6-reference-value-matching)
 
 #### §1.2.4 Snippets
 
 An text snippet (`snippet`) is a short piece of text.
- * Snippets are technically **strings** (see [§1.1](#%C2%A711-strings)).
+ * Snippets are technically **strings** (see [§1.1](#11-strings)).
  * The empty string (`""`) is a valid snippet.
  * By default, text snippets are **case-sensitive**.
 
@@ -131,7 +131,7 @@ Round braces **`(` `)`** are used in Audlang expressions to group a combination 
 
 ### §1.4 Whitespace
 
-Whitespace (' ', tabulator, carriage-return, line-break) is allowed anywhere outside strings to format the structure of an Audlang-expression. Occasionally, whitespace is required (see for example [AND](#%C2%A741-logical-and)/[OR](#%C2%A742-logical-or)).
+Whitespace (' ', tabulator, carriage-return, line-break) is allowed anywhere outside strings to format the structure of an Audlang-expression. Occasionally, whitespace is required (see for example [AND](#41-logical-and)/[OR](#42-logical-or)).
 
 ### §1.5 Comments
 
@@ -174,7 +174,7 @@ Audlang allows placing comments before, inside and after an expression. Every co
 
 ## §2 Type Conventions
 
-On language level all [argument values](#%C2%A7122-argument-values) are of type **string** (see [§1.1](#%C2%A711-strings)).
+On language level all [argument values](#122-argument-values) are of type **string** (see [§1.1](#11-strings)).
 
 As a norm for consistent type handling across implementations and to encourage best practice for writing expressions, Audlang defines a set of conventions.
 
@@ -244,7 +244,7 @@ Audlang language defines the date format `yyyy-MM-dd` with
 
 `argName` **`!=`** `argValue` matches if the value of the attribute "argName" is not equal to the value "argValue".
 
-:bulb: `argName != argValue` is the shortform of `NOT argName = argValue`, see also [§5 Negation](#%C2%A75-negation)
+:bulb: `argName != argValue` is the shortform of `NOT argName = argValue`, see also [§5 Negation](#5-negation)
 
 *Examples:*
  * `color != red`
@@ -431,15 +431,15 @@ On attribute level (basic expressions) a `STRICT NOT` **excludes** the unknowns:
 
 Sometimes it is desirable to compare two attributes of the same record against eachother.
 
-For this purpose Audlang defines [argument references](#%C2%A7123-argument-reference). Starting with an `@`-symbol followed by the attribute name they can be used in most places where otherwise values must be specified.
+For this purpose Audlang defines [argument references](#123-argument-reference). Starting with an `@`-symbol followed by the attribute name they can be used in most places where otherwise values must be specified.
 
 For example `address.country=@home_country` would match if the address' country field has the same value as the *home_country* field from the same record.
 
 The following operations support argument references:
 
- * [§3.1 Equals](#%C2%A731-equals) /  [§3.2 Not Equals](#%C2%A732-not-equals)
- * [§3.3 Less Than and Greater Than](#%C2%A733-less-than-and-greater-than)
- * [§3.5 Any Of](#%C2%A735-any-of)
+ * [§3.1 Equals](#31-equals) /  [§3.2 Not Equals](#32-not-equals)
+ * [§3.3 Less Than and Greater Than](#33-less-than-and-greater-than)
+ * [§3.5 Any Of](#35-any-of)
 
 **[:twisted_rightwards_arrows: Implementor Notes](#dealing-with-reference-values)**
 
@@ -453,7 +453,7 @@ Some systems collect multiple values for certain attributes from a stream or mer
 
 **[:twisted_rightwards_arrows: Implementor Notes](#dealing-with-collection-attributes)**
 
-:bulb: The semantics for [§5.2 Strict Negation](#%C2%A752-strict-negation) will be applied so that the `UNKNOWN`s will be *excluded* if - and only if - the negation is `STRICT`.
+:bulb: The semantics for [§5.2 Strict Negation](#52-strict-negation) will be applied so that the `UNKNOWN`s will be *excluded* if - and only if - the negation is `STRICT`.
 
 Below we specify the behavior of Audlang expressions on collection attributes:
 
@@ -467,9 +467,9 @@ Below we specify the behavior of Audlang expressions on collection attributes:
  :bulb: In case of collection attributes the following otherwise impossible expression can be plausible: `multiSelectColor=red AND multiSelectColor=green`
  
 *See also:*
- * [§3.1 Equals](#%C2%A731-equals)
- * [§1.2.2 Argument Values](#%C2%A7122-argument-values)
- * [§1.2.3 Agument References](#%C2%A7123-argument-reference)
+ * [§3.1 Equals](#31-equals)
+ * [§1.2.2 Argument Values](#122-argument-values)
+ * [§1.2.3 Agument References](#123-argument-reference)
 
 #### §7.2 Not Equals on Collection Attributes
 
@@ -479,9 +479,9 @@ Below we specify the behavior of Audlang expressions on collection attributes:
  * If the left side of a not-equals-comparison is a collection attribute and the right side is an argument reference to another collection attribute, then a record matches if *none* of the collection members equals *any* of the values of the referenced attribute's collection (*"overlap is empty"*).
 
 *See also:*
- * [§3.2 Not Equals](#%C2%A732-not-equals)
- * [§1.2.2 Argument Values](#%C2%A7122-argument-values)
- * [§1.2.3 Agument References](#%C2%A7123-argument-reference)
+ * [§3.2 Not Equals](#32-not-equals)
+ * [§1.2.2 Argument Values](#122-argument-values)
+ * [§1.2.3 Agument References](#123-argument-reference)
 
 #### §7.3 Less Than and Greater Than on Collection Attributes
 
@@ -506,13 +506,13 @@ Accordingly, in case of a negation:
 :bulb: To adress the above problem you can instead write: `NOT argName <= 6 AND NOT argName >= 9`.
 
 *See also:*
- * [§3.3 Less Than and Greater Than](#%C2%A733-less-than-and-greater-than)
- * [§1.2.2 Argument Values](#%C2%A7122-argument-values)
- * [§1.2.3 Agument References](#%C2%A7123-argument-reference)
+ * [§3.3 Less Than and Greater Than](#33-less-than-and-greater-than)
+ * [§1.2.2 Argument Values](#122-argument-values)
+ * [§1.2.3 Agument References](#123-argument-reference)
 
 #### §7.4 Between on Collection Attributes
 
-:warning: The `BETWEEN` operator (see [§3.4](#%C2%A734-between)) should not be used on collection attributes.
+:warning: The `BETWEEN` operator (see [§3.4](#34-between)) should not be used on collection attributes.
 
 `argName BETWEEN (7, 8)` is the same as `argName > 6 AND argName < 9` which leads to unexpected results in conjunction with collection attributes (see [§7.3](#avoid-range-queries-on-collection-attributes)).
 
@@ -531,18 +531,18 @@ Accordingly, in case of a negation:
  * If the left side of a negated any-of is a collection attribute and the list on the right side contains an argument reference to another collection attribute, then a record matches if *none* of the collection members on the left side matches *any* of the values of the referenced attribute's collection on the right side (*"overlap empty"*).
 
 *See also:*
- * [§3.5 Any Of](#%C2%A735-any-of)
- * [§1.2.2 Argument Values](#%C2%A7122-argument-values)
- * [§1.2.3 Agument References](#%C2%A7123-argument-reference)
+ * [§3.5 Any Of](#35-any-of)
+ * [§1.2.2 Argument Values](#122-argument-values)
+ * [§1.2.3 Agument References](#123-argument-reference)
 
 #### §7.6 Contains and Contains Any
 
 If the argument on the left side is a collection attribute, then a record matches if *any* collection member fulfils the contains / contains any text snippet condition on the right side.
 
 *See also:*
- * [§3.6 Contains Text Snippet](#%C2%A736-contains-text-snippet)
- * [§3.7 Contains Text Snippet List](#%C2%A737-contains-any-of-text-snippet-list)
- * [§1.2.4 Snippets](#%C2%A7124-snippets)
+ * [§3.6 Contains Text Snippet](#36-contains-text-snippet)
+ * [§3.7 Contains Text Snippet List](#37-contains-any-of-text-snippet-list)
+ * [§1.2.4 Snippets](#124-snippets)
 
 # Appendix
 
@@ -577,13 +577,13 @@ There are many ways to implement strings with escaping. After some experiments a
    * Line-breaks are problematic as they break the layout of a given expression string, no matter if you print it single-line or formatted.
    * Thus, all the plain control characters are banned. Special escape-sequences were introduced for rare edge cases.
 
-[:arrow_right: §1.1 Strings](#%C2%A711-strings)
+[:arrow_right: §1.1 Strings](#11-strings)
 
 ### No empty argument names
 
 There is no valid case for an empty attribute name or any magic *default attribute name*. Thus, it is part of the grammar not to allow the empty string (`""`) as an argument name or argument reference.
 
-[:arrow_right: §1.2.1 Argument names](#%C2%A7121-argument-names)
+[:arrow_right: §1.2.1 Argument names](#121-argument-names)
 
 ### Logical value convention
 
@@ -598,7 +598,7 @@ At first glance it looks convenient for users if the system would *auto-guess*.
 
 However, besides being confusing for users, this kind of *ambiguity* leads to severe issues under the bonnet. Imagine a user expects `on` to mean *true* but the underlying "guessing function" does not know `on`, yet. Such mistakes can be hard to diagnose. 
 
-[:arrow_right: §2.2 Logical Values](#%C2%A722-logical-values)
+[:arrow_right: §2.2 Logical Values](#22-logical-values)
 
 ### About Date Values
 
@@ -610,7 +610,7 @@ However, attributes like *last contact* in the system's base audience could be d
 
 The Audlang-convention increases readability and avoids ambiguity when writing expressions.
 
-[:arrow_right: §2.3 Date Values](#%C2%A723-date-values)
+[:arrow_right: §2.3 Date Values](#23-date-values)
 
 ### About unknown values
 
@@ -618,11 +618,11 @@ Ideally, in an underlying base audience all missing values have been eliminated 
 
 However, this kind of preparation is not trivial, so we may see missing values for certain attributes of our base audience.
 
-This cannot be ignored (see also [§5 Negation](#%C2%A75-negation)).
+This cannot be ignored (see also [§5 Negation](#5-negation)).
 
 `IS [NOT] UNKNOWN` makes it possible to address related records in the base audience *explicitly*.
 
-[:arrow_right: §3.8 Is (Not) Unknown](#%C2%A738-is-not-unknown)
+[:arrow_right: §3.8 Is (Not) Unknown](#38-is-not-unknown)
 
 ### About curbed or
 
@@ -653,7 +653,7 @@ Audlang's `CURB`-expression gives you a way to express the same condition in a s
 CURB ( q1=yes OR q2=yes OR q3=yes OR q4=yes OR q5=yes ) >= 2
 ```
 
-[:arrow_right: §4.3 Curbed Or](#%C2%A743-curbed-or)
+[:arrow_right: §4.3 Curbed Or](#43-curbed-or)
 
 ### About Negation
 
@@ -710,7 +710,7 @@ In the little example above the query `STRICT car.color != red` **only returns r
  * `STRICT NOT STRICT NOT argName = argValue ` $\Leftrightarrow$ `argName = argValue`
  * `STRICT NOT NOT argName = argValue ` $\Leftrightarrow$ `argName = argValue`
 
-[:arrow_right: §5 Negation](#%C2%A75-negation)
+[:arrow_right: §5 Negation](#5-negation)
 
 ## Implementor Notes
 
@@ -722,7 +722,7 @@ The removal of the extra double-quotes is not part of the ANTLR-grammar. At runt
 
 :bulb: The **audlang-spec project** contains a reference implementation written in Java.
 
-[:arrow_right: §1.1 Strings](#%C2%A711-strings)
+[:arrow_right: §1.1 Strings](#11-strings)
 
 ### Handling escape sequences
 
@@ -732,25 +732,25 @@ Mapping the escape-sequences in a string back to their corresponding control cha
 
 :bulb: The **audlang-spec project** contains a reference implementation written in Java.
 
-[:arrow_right: §1.1 Strings](#%C2%A711-strings)
+[:arrow_right: §1.1 Strings](#11-strings)
 
 ### Dealing with argument names
 
 As we don't have any constraints on argument names besides not to be empty, application implementors can apply any syntax or naming convention here. However, you should avoid the double-quote '"' as this leads to more escaping effort which negatively impacts readability.
 
-[:arrow_right: §1.2.1 Argument names](#%C2%A7121-argument-names)
+[:arrow_right: §1.2.1 Argument names](#121-argument-names)
 
 ### Empty argument values
 
 Usually, *empty string* is a discouraged attribute value and should be handled like *unknown*. But if we prohibit the usage of the empty string as an argument value *entirely*, we could no longer deal with the edge case that in some database *empty string* means something different than *unknown*. Thus, it was decided to allow the empty string as an argument value and let the underlying implementation decide what to do.
 
-[:arrow_right: §1.2.2 Argument values](#%C2%A7122-argument-values)
+[:arrow_right: §1.2.2 Argument values](#122-argument-values)
 
 ### Dealing with comments
 
 Because comments are not part of the expression nor influence the execution, implementors are free to either discard all comments during a parse run or treat them as first-class citizens. The latter is recommended if you intend to provide auto-formatting of expressions while preserving any comments.
 
-[:arrow_right: §1.5 Comments](#%C2%A715-comments)
+[:arrow_right: §1.5 Comments](#15-comments)
 
 ### Dealing with different types
 
@@ -770,13 +770,13 @@ The Audlang type conventions shall help implementing a plausible consistent solu
 
 :bulb: Any meta-data driven type-aware UI-component should apply the conventions whenever a user enters/selects a value of a known type when updating an expression.
 
-[:arrow_right: §2 Type Conventions](#%C2%A72-type-conventions)
+[:arrow_right: §2 Type Conventions](#2-type-conventions)
 
 ### Handling integer conversion
 
 :bulb: Besides the problem with different international format standards, the main reason why we don't encourage grouping digits in numbers is avoiding ambiguity. On language level all values are strings, and whenever possible no two different strings should express the same value.
 
-[:arrow_right: §2.1.1 Integer values](#%C2%A7211-integer-values)
+[:arrow_right: §2.1.1 Integer values](#211-integer-values)
 
 ### Handling decimal conversion
 
@@ -784,7 +784,7 @@ The reduction to 7 decimal digits reduces the effective precision but increases 
 
 :bulb: The reason why we don't encourage grouping is avoiding ambiguity. On language level all values are strings, and whenever possible no two different strings should express the same value.
 
-[:arrow_right: §2.1.2 Decimal values](#%C2%A7212-decimal-values)
+[:arrow_right: §2.1.2 Decimal values](#212-decimal-values)
 
 ### Dealing with date values
 
@@ -794,7 +794,7 @@ The reduction to 7 decimal digits reduces the effective precision but increases 
 
 Well, time (of the day) is tricky, especially if you are collecting data across time zones. It is not a good idea to let a user query by time of the day on raw data. For plausible expressions based on the time of the day *preprocessing* of the base audience is crucial. If there is anyway a preprocessing/cleansing step, then it is a good practice to categorize the time values (e.g., just the hour portion or something like "morning", "noon", "afternoon", etc.) to support users in writing meaningful expressions.
 
-[:arrow_right: §2.3 Date values](#%C2%A723-date-values)
+[:arrow_right: §2.3 Date values](#23-date-values)
 
 ### Dealing with unknown values
 
@@ -802,7 +802,7 @@ Well, time (of the day) is tricky, especially if you are collecting data across 
 
 :bulb: Implementations that don't have any missing values should gracefully handle this operation (`IS UNKNOWN` can never be true and `IS NOT UNKNOWN` always holds true). 
 
-[:arrow_right: §3.8 Is (Not) Unknown](#%C2%A738-is-not-unknown)
+[:arrow_right: §3.8 Is (Not) Unknown](#38-is-not-unknown)
 
 ### Dealing with All and None
 
@@ -822,13 +822,13 @@ If you optimize this expression, the only possible answer is `<NONE>` because th
 
 Concrete implementations should inform the users about this problem rather than wasting time with execution.
 
-[:arrow_right: §3.3 All and None](#%C2%A739-all-and-none)
+[:arrow_right: §3.3 All and None](#39-all-and-none)
 
 ### Dealing with nesting
 
 The operators `AND` and `OR` allow combining basic expressions as well as other composite expressions. The level of nesting is not limited.
 
-[:arrow_right: §4 Composite Expressions](#%C2%A74-composite-expressions)
+[:arrow_right: §4 Composite Expressions](#4-composite-expressions)
 
 ### Dealing with Curbed Or
 
@@ -854,7 +854,7 @@ OR (color != red AND fabric != cotton AND look != fancy)
 This is of course the same as:
 `NOT (color = red AND fabric = cotton AND look = fancy)` which turns into `(color != red OR fabric != cotton OR look != fancy)`
 
-[:arrow_right: §4.3 Curbed Or](#%C2%A743-curbed-or)
+[:arrow_right: §4.3 Curbed Or](#43-curbed-or)
 
 ### Dealing with negation
 
@@ -920,7 +920,7 @@ The following examples show plausibility and consistency.
    <=> a=1
    ```
 
-[:arrow_right: §5 Negation](#%C2%A75-negation)
+[:arrow_right: §5 Negation](#5-negation)
 
 ### Dealing with reference values
 
@@ -928,18 +928,18 @@ The following examples show plausibility and consistency.
 
 Even if the feature is not available in an environment, any Audlang-implementation must still parse expressions containing argument references to return a meaningful explanatory error message.
 
-[:arrow_right: §6 Reference Value Matching](#%C2%A76-reference-value-matching)
+[:arrow_right: §6 Reference Value Matching](#6-reference-value-matching)
 
 
 ### Dealing with collection attributes
 
 > **This part of the Audlang specification is optional.**
 
-Apart from a few edge-cases (e.g., [BETWEEN](#%C2%A774-between-on-collection-attributes)), for users of the Audlang it should not matter whether any attribute carries only a single value or stands for a collection of values.
+Apart from a few edge-cases (e.g., [BETWEEN](#74-between-on-collection-attributes)), for users of the Audlang it should not matter whether any attribute carries only a single value or stands for a collection of values.
 
-However, implementors are encouraged to help users understand the implications (tooltips, icons, etc.). It is recommended to warn users if problematic operators are applied on collection attributes (see [§7.3](#%C2%A773-less-than-and-greater-than-on-collection-attributes), [§7.4](#%C2%A774-between-on-collection-attributes)).
+However, implementors are encouraged to help users understand the implications (tooltips, icons, etc.). It is recommended to warn users if problematic operators are applied on collection attributes (see [§7.3](#73-less-than-and-greater-than-on-collection-attributes), [§7.4](#74-between-on-collection-attributes)).
 
-[:arrow_right: §7 Audlang and Collection Attributes](#%C2%A77-audlang-and-collection-attributes)
+[:arrow_right: §7 Audlang and Collection Attributes](#7-audlang-and-collection-attributes)
 
 # Document History
 
