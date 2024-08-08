@@ -22,18 +22,18 @@ Every tool comes with its own grammar and its own backend processing the express
 
 While the expression languages show a certain feature variety the core feature set is rather simple. But all of the tools I have seen so far share a couple of problems:
 
- * The language is home-grown, even if it tries align to any standard it is rather technical motivated than user-facing (developed by engineers).
- * There is no language specification. If you are lucky there is a bunch of examples. To understand limitations, edge-cases and quirks it is required to review the application code.
- * Inconsistency: Features have been added over time, by developers with different approaches, skill sets and preferences. E.g., one featue uses round braces, a later added feature uses brackets - actually for a the same purpose.
- * Incompleteness: E.g., less than, greater than was added in a particular context but is still not allowed in a similar scenario.
- * Missing or limited nesting: E.g., for some reason you can combine an AND with and OR but not vice-versa.
- * Missing or unclear negation: E.g., there is a logical NOT, but it is not implemented on a composite expression combining two conditions with AND. 
- * Strange restrictions: E.g., Some characters look correct in the first place but cause unexpected issues somewhere down the chain.
- * Missing escaping: Some attribute values are just not allowed, worst case undocumented.
- * There is no expression optimization/normalization which makes it hard to compare expressions and impede result caching.
- * Usually, expressions are created in the UI, and much later some converter *knows* how to translate this is into some target data store expressions (e.g., SQL) to be executed. In between the expression is *opaque*, and there is no way to tell easily which attributes are in use. This is quite uncomfortable for reporting attribute usage statistics or the impact of an attribute removal resp. permission change.
- * The language is tightly coupled to a particular data store or data model. E.g., table-names for certain groups of attributes are integral part of the grammar.
- * After a few technology iterations the language gets polluted with legacy fragments. Sometimes they are still present but inactive, worst-case these former features now cause errors.
+ * The **language is home-grown**, even if it tries align to any standard it is rather technical motivated than user-facing (developed by engineers).
+ * There is **no language specification**. If you are lucky there is a bunch of examples. To understand limitations, edge-cases and quirks it is required to review the application code.
+ * **Inconsistencies**: Features have been added over time, by developers with different approaches, skill sets and preferences. E.g., one featue uses round braces, a later added feature uses brackets - actually for a the same purpose.
+ * **Incompleteness**: E.g., less than, greater than was added in a particular context but is still not allowed in a similar scenario.
+ * **Missing or limited nesting**: E.g., for some reason you can combine an AND with and OR but not vice-versa.
+ * **Missing or unclear negation**: E.g., there is a logical NOT, but it is not implemented on a composite expression combining two conditions with AND. 
+ * **Unplausible restrictions**: E.g., Some characters look correct in the first place but cause unexpected issues somewhere down the chain.
+ * **Lack of escaping**: Some attribute values are just not allowed, worst case undocumented.
+ * There is **no expression optimization/normalization** which makes it hard to compare expressions and impede result caching.
+ * **Intransparancy**: Usually, expressions are created in the UI, and much later some converter *knows* how to translate this is into some target data store expressions (e.g., SQL) to be executed. In between the expression is *opaque*, and there is no way to tell easily which attributes are in use. This is quite uncomfortable for reporting attribute usage statistics or the impact of an attribute removal resp. permission change.
+ * **Tight coupling**: The language is tightly coupled to a particular data store or data model. E.g., table-names for certain groups of attributes are integral part of the grammar.
+ * **Legacy left-overs**: After a few technology iterations the language gets polluted with legacy fragments. Sometimes they are still present but inactive, worst-case these former features now cause errors.
 
  The problems above lead to further issues:
  * Storage technology evolves, databases come and go. Every time you change your database you need to either migrate the expressions or mimic inherited storage structures in your new database which may not be optimal.
