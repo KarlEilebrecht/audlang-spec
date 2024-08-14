@@ -3,7 +3,7 @@
 
 # Audience Definition Language Specification
 
-***Version 1.0*** *([August 2024](#document-history))*
+***Version 1.1*** *([August 2024](#document-history))*
 
 The Audience Definition Language (Audlang) is a common expression language for defining audiences based on criteria (attributes and their values) *independent* from any concrete storage layer or data model (see also [:information_source: **Main Goals**](#main-goals)).
 
@@ -700,9 +700,16 @@ In the little example above the query `STRICT car.color != red` **only returns r
  * `NOT argName IS NOT UNKNOWN` $:=$ `argName IS UNKNOWN` returns all records were we don't have any value for the attribute `argName`.
  * `NOT <ALL>` $:=$ `<NONE>`
  * `NOT <NONE>` $:=$ `<ALL>`
- * `NOT NOT argName = argValue ` $\Leftrightarrow$ `argName = argValue`
+ * `NOT NOT argName = argValue` $\Leftrightarrow$ `argName = argValue`
  * `NOT STRICT NOT argName = argValue ` $\Leftrightarrow$ `argName = argValue OR argName IS UNKNOWN`
- 
+ * `NOT ( expr1 AND expr2 )` $\Leftrightarrow$ `NOT expr1 OR NOT expr2`
+ * `NOT ( expr1 OR expr2 )` $\Leftrightarrow$ `NOT expr1 AND NOT expr2`
+ * `NOT CURB (...) = n` $\Leftrightarrow$ `CURB (...) != n`
+ * `NOT CURB (...) < n` $\Leftrightarrow$ `CURB (...) >= n`
+ * `NOT CURB (...) <= n` $\Leftrightarrow$ `CURB (...) > n`
+ * `NOT CURB (...) > n` $\Leftrightarrow$ `CURB (...) <= n`
+ * `NOT CURB (...) >= n` $\Leftrightarrow$ `CURB (...) < n`
+
 #### Behavior of STRICT NOT
 
  * `STRICT NOT car.color=red` returns all records with a different car color than red ignoring all records where we don't know the car color.
@@ -713,6 +720,13 @@ In the little example above the query `STRICT car.color != red` **only returns r
  * `STRICT NOT <NONE>` $:=$ `<ALL>`
  * `STRICT NOT STRICT NOT argName = argValue ` $\Leftrightarrow$ `argName = argValue`
  * `STRICT NOT NOT argName = argValue ` $\Leftrightarrow$ `argName = argValue`
+ * `STRICT NOT ( expr1 AND expr2 )` $\Leftrightarrow$ `STRICT NOT expr1 OR STRICT NOT expr2`
+ * `STRICT NOT ( expr1 OR expr2 )` $\Leftrightarrow$ `STRICT NOT expr1 AND STRICT NOT expr2`
+ * `STRICT NOT CURB (...) = n` $\Leftrightarrow$ `NOT CURB (...) = n` $\Leftrightarrow$ `CURB (...) != n`
+ * `STRICT NOT CURB (...) < n` $\Leftrightarrow$ `NOT CURB (...) < n` $\Leftrightarrow$ `CURB (...) >= n`
+ * `STRICT NOT CURB (...) <= n` $\Leftrightarrow$ `NOT CURB (...) <= n` $\Leftrightarrow$ `CURB (...) > n`
+ * `STRICT NOT CURB (...) > n` $\Leftrightarrow$ `NOT CURB (...) > n` $\Leftrightarrow$ `CURB (...) <= n`
+ * `STRICT NOT CURB (...) >= n` $\Leftrightarrow$ `NOT CURB (...) >= n` $\Leftrightarrow$ `CURB (...) < n`
 
 [:arrow_right: §5 Negation](#5-negation)
 
@@ -836,7 +850,8 @@ The operators `AND` and `OR` allow combining basic expressions as well as other 
 
 ### Dealing with Curbed Or
 
-A `CURB` is nothing but *syntactic sugar* introduced to simplify expression writing. Consequently, the preferred implementation strategy is resolving the curb before query execution.
+A `CURB` is nothing but *syntactic sugar* introduced to simplify expression writing. 
+Consequently. the preferred implementation strategy is resolving the curb before query execution.
 
 *Resolving* a `CURB` means finding all possible combinations based on the member expressions and the bound to create a (potentially large) expression only using `AND` and `OR`.
 
@@ -857,6 +872,18 @@ OR (color != red AND fabric != cotton AND look != fancy)
 
 This is of course the same as:
 `NOT (color = red AND fabric = cotton AND look = fancy)` which turns into `(color != red OR fabric != cotton OR look != fancy)`
+
+**:warning: Important:** An enclosing **negation** (`[STRICT] NOT`) **always applies to the bound condition**. 
+```sql
+NOT CURB (color = red OR fabric = cotton OR look = fancy) < 3
+```
+turns into 
+```sql
+CURB (color = red OR fabric = cotton OR look = fancy) >= 3
+```
+This might be relevant during the execution of the expression which could otherwise potentially interfere with the strictness rules (see [§5 Negation](#5-negation)). CURB *never inherits STRICT* from an enclosing negation, and all negations implied by boolean CURB-resolution (see example above) are *default negations* and thus never strict.
+
+:bulb: Technically, the curb's bound value is a 64 bit value (see [§2.1.1 Integer Values](#211-integer-values)), way larger than any expected bound value. Implementors must provide clear and helpful error messages in case a user misinterprets the bound and enters a very large value. This should be detected and reported early in the parsing process rather than causing mysterious issues down the execution chain.
 
 [:arrow_right: §4.3 Curbed Or](#43-curbed-or)
 
@@ -950,4 +977,5 @@ However, implementors are encouraged to help users understand the implications (
 
 | Version | Date | Changes |
 | :-----|:-----|:-----|
+| 1.1   | August 2024    | Clarification regarding CURB |
 | 1.0   | August 2024    | First specification release |
