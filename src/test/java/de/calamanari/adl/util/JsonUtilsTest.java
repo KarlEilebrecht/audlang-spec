@@ -28,6 +28,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import de.calamanari.adl.AdlException;
 import de.calamanari.adl.util.sgen.SampleExpression;
 
 /**

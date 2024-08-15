@@ -19,7 +19,7 @@
 
 package de.calamanari.adl.util.sgen;
 
-import de.calamanari.adl.util.AdlException;
+import de.calamanari.adl.AdlException;
 
 /**
  * Special exception to be thrown when parsing an expression template

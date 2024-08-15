@@ -17,7 +17,7 @@
  */
 //@formatter:on
 
-package de.calamanari.adl.util;
+package de.calamanari.adl;
 
 /**
  * Basic exception to be used for common errors and wrapping of checked exceptions.

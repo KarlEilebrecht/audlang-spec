@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.calamanari.adl.util.AdlException;
+import de.calamanari.adl.AdlException;
 
 /**
  * Creates an execution plan based on a given list of template groups (ignoring any template group or template that is marked to be skipped)

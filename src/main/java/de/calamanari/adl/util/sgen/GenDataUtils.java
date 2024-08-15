@@ -25,7 +25,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Random;
 
-import de.calamanari.adl.util.AdlException;
+import de.calamanari.adl.AdlException;
 
 /**
  * A few utilities required to create meta data and random choices during the generation process.

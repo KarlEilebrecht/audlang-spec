@@ -28,6 +28,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
+import de.calamanari.adl.AdlException;
+
 /**
  * Common utilities for reading and writing json-files
  * 

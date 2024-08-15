@@ -26,7 +26,7 @@ import java.util.Random;
 
 import org.junit.jupiter.api.Test;
 
-import de.calamanari.adl.util.AdlException;
+import de.calamanari.adl.AdlException;
 
 /**
  * @author <a href="mailto:Karl.Eilebrecht(a/t)calamanari.de">Karl Eilebrecht</a>
