@@ -108,6 +108,40 @@ comment                 : COMMENT ;
 
 space                   : WHITESPACE | (WHITESPACE? comment WHITESPACE?)+ ;
 
+spaceAfterNot           : space;
+
+spaceAfterStrict        : space;
+
+spaceAfterContains      : space;
+
+spaceAfterBetween       : space;
+
+spaceAfterIs            : space;
+
+spaceAfterAny           : space;
+
+spaceAfterOf            : space;
+
+spaceAfterArgName       : space;
+
+spaceAfterOperator      : space;
+
+spaceBeforeListItem     : space;
+
+spaceAfterListItem      : space;
+
+spaceBeforeCombiner     : space;
+
+spaceAfterCombiner      : space;
+
+spaceAfterCurb          : space;
+
+spaceAfterCurbedOr      : space;
+
+spaceBeforeExpression   : space;
+
+spaceAfterExpression    : space;
+
 argName                 : TEXT_PLAIN | TEXT_IN_DOUBLE_QUOTES | INTEGER_GTE_0 ;
 
 argValue                : TEXT_PLAIN | TEXT_IN_DOUBLE_QUOTES | TEXT_EMPTY | INTEGER_GTE_0 ;
@@ -118,49 +152,55 @@ argRef                  : '@' argName;
 
 argValueOrArgRef        : argValue | argRef ;
 
-cmpEquals               : '=' space? argValueOrArgRef ;
+valueListItem           : spaceBeforeListItem? argValue spaceAfterListItem? ;
 
-cmpNotEquals            : '!' '=' space? argValueOrArgRef ;
+valueOrRefListItem      : spaceBeforeListItem? argValueOrArgRef spaceAfterListItem? ;
+
+snippetListItem         : spaceBeforeListItem? snippet spaceAfterListItem? ;
+
+cmpEquals               : '=' spaceAfterOperator? argValueOrArgRef ;
+
+cmpNotEquals            : '!' '=' spaceAfterOperator? argValueOrArgRef ;
 
 cmpStrictNotEquals      : cmpNotEquals ;
 
-cmpLessThan             : '<' space? argValueOrArgRef ;
+cmpLessThan             : '<' spaceAfterOperator? argValueOrArgRef ;
 
-cmpLessThanOrEquals     : '<' '=' space? argValueOrArgRef ;
+cmpLessThanOrEquals     : '<' '=' spaceAfterOperator? argValueOrArgRef ;
 
-cmpGreaterThan          : '>' space? argValueOrArgRef ;
+cmpGreaterThan          : '>' spaceAfterOperator? argValueOrArgRef ;
 
-cmpGreaterThanOrEquals  : '>' '=' space? argValueOrArgRef ;
+cmpGreaterThanOrEquals  : '>' '=' spaceAfterOperator? argValueOrArgRef ;
 
-cmpIsUnknown            : IS space UNKNOWN;
+cmpIsUnknown            : IS spaceAfterIs UNKNOWN;
 
-cmpIsNotUnknown         : IS space NOT space UNKNOWN;
+cmpIsNotUnknown         : IS spaceAfterIs NOT spaceAfterNot UNKNOWN;
 
-cmpAnyOf                : ANY space OF space? '(' space? argValueOrArgRef ( space? ',' space? argValueOrArgRef)* space? ')' ;
+cmpAnyOf                : ANY spaceAfterAny OF spaceAfterOf? '(' valueOrRefListItem ( ',' valueOrRefListItem )* ')' ;
 
-cmpBetween              : BETWEEN space? '(' argValue space? ',' space? argValue space? ')' ;
+cmpBetween              : BETWEEN spaceAfterBetween? '(' valueListItem ',' valueListItem ')' ;
 
-cmpContains             : CONTAINS space snippet ;
+cmpContains             : CONTAINS spaceAfterContains snippet ;
 
-cmpContainsAnyOf        : CONTAINS space ANY space OF space? '(' space? snippet ( space? ',' space? snippet)* space? ')' ;
+cmpContainsAnyOf        : CONTAINS spaceAfterContains ANY spaceAfterAny OF spaceAfterOf? '(' snippetListItem ( ',' snippetListItem )* ')' ;
 
-cmpInnerNot             : NOT space (cmpAnyOf | cmpBetween | cmpContains | cmpContainsAnyOf) ;
+cmpInnerNot             : NOT spaceAfterNot (cmpAnyOf | cmpBetween | cmpContains | cmpContainsAnyOf) ;
 
-cmpStrictInnerNot       : STRICT space cmpInnerNot;
+cmpStrictInnerNot       : STRICT spaceAfterStrict cmpInnerNot;
 
 curbBound               : INTEGER_GTE_0 ;
 
-curbEquals              : '=' space? curbBound ;
+curbEquals              : '=' spaceAfterOperator? curbBound ;
 
-curbNotEquals           : '!' '=' space? curbBound ;
+curbNotEquals           : '!' '=' spaceAfterOperator? curbBound ;
 
-curbLessThan            : '<' space? curbBound ;
+curbLessThan            : '<' spaceAfterOperator? curbBound ;
 
-curbLessThanOrEquals    : '<' '=' space? curbBound ;
+curbLessThanOrEquals    : '<' '=' spaceAfterOperator? curbBound ;
 
-curbGreaterThan         : '>' space? curbBound ;
+curbGreaterThan         : '>' spaceAfterOperator? curbBound ;
 
-curbGreaterThanOrEquals : '>' '=' space? curbBound ;
+curbGreaterThanOrEquals : '>' '=' spaceAfterOperator? curbBound ;
 
 allExpression           : MATCH_ALL;
 
@@ -168,23 +208,23 @@ noneExpression          : MATCH_NONE;
 
 anyExpression           : ( cmpExpression | bracedExpression | curbExpression | andExpression | orExpression | notExpression | strictNotExpression | allExpression | noneExpression ) ; 
 
-andExpression           : monoExpression space AND space monoExpression ( space AND space monoExpression )* ;
+andExpression           : monoExpression spaceBeforeCombiner AND spaceAfterCombiner monoExpression ( spaceBeforeCombiner AND spaceAfterCombiner monoExpression )* ;
 
-orExpression            : monoExpression space OR space monoExpression ( space OR space monoExpression )* ;
+orExpression            : monoExpression spaceBeforeCombiner OR spaceAfterCombiner monoExpression ( spaceBeforeCombiner OR spaceAfterCombiner monoExpression )* ;
 
-curbExpression          : CURB space? '(' space? orExpression space? ')' space? (curbEquals | curbNotEquals | curbLessThan | curbLessThanOrEquals | curbGreaterThan | curbGreaterThanOrEquals) ;
+curbExpression          : CURB spaceAfterCurb? '(' spaceBeforeExpression? orExpression spaceAfterExpression? ')' spaceAfterCurbedOr? (curbEquals | curbNotEquals | curbLessThan | curbLessThanOrEquals | curbGreaterThan | curbGreaterThanOrEquals) ;
 
-bracedExpression        : '(' space? anyExpression space? ')' ;
+bracedExpression        : '(' spaceBeforeExpression? anyExpression spaceAfterExpression? ')' ;
 
 monoExpression          : ( cmpExpression | bracedExpression | curbExpression | notExpression | strictNotExpression | allExpression | noneExpression ) ;
 
-notExpression           : NOT space monoExpression ;
+notExpression           : NOT spaceAfterNot monoExpression ;
 
-strictNotExpression     : STRICT space notExpression ;
+strictNotExpression     : STRICT spaceAfterStrict notExpression ;
 
-cmpExpression           : cmpExpressionPlain | ( '(' space? cmpExpressionPlain space? ')' ) ;
+cmpExpression           : cmpExpressionPlain | ( '(' spaceBeforeExpression? cmpExpressionPlain spaceAfterExpression? ')' ) ;
 
-cmpExpressionPlain      : (argName space ( cmpIsUnknown | cmpIsNotUnknown | cmpAnyOf | cmpBetween | cmpContains | cmpContainsAnyOf | cmpInnerNot | cmpStrictInnerNot)) | (argName space? ( cmpEquals | cmpNotEquals | cmpLessThan | cmpLessThanOrEquals | cmpGreaterThan | cmpGreaterThanOrEquals)) | (STRICT space argName space? cmpStrictNotEquals) ;
+cmpExpressionPlain      : (argName spaceAfterArgName ( cmpIsUnknown | cmpIsNotUnknown | cmpAnyOf | cmpBetween | cmpContains | cmpContainsAnyOf | cmpInnerNot | cmpStrictInnerNot)) | (argName space? ( cmpEquals | cmpNotEquals | cmpLessThan | cmpLessThanOrEquals | cmpGreaterThan | cmpGreaterThanOrEquals)) | (STRICT spaceAfterStrict argName spaceAfterArgName? cmpStrictNotEquals) ;
 
 /* start rule */
-query                   : space? anyExpression space? EOF ;
+query                   : spaceBeforeExpression? anyExpression spaceAfterExpression? EOF ;
