@@ -108,6 +108,12 @@ comment                 : COMMENT ;
 
 space                   : WHITESPACE | (WHITESPACE? comment WHITESPACE?)+ ;
 
+/* 
+   Important: The alias rules for "space" below are solely required to properly detect comment positions.
+   If you are not interested in parsing comments, then you can safely replace all occurrences with the "space" rule
+   and this way slightly improve the performance of the generated ANTLR-parser.
+*/
+
 spaceAfterNot           : space;
 
 spaceAfterStrict        : space;
