@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,7 +58,7 @@ class SampleValidationTest {
     private AntlrTestHelper testHelper = new AntlrTestHelper(AudlangLexer.class, AudlangParser.class, "query");
 
     @Test
-    // @Disabled("for debugging")
+    @Disabled("for debugging")
     void testSampleParsingWithHelper() {
 
         AntlrParseResult res = testHelper.parse("c contains a@s");
