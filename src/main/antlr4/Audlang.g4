@@ -230,7 +230,7 @@ strictNotExpression     : STRICT spaceAfterStrict notExpression ;
 
 cmpExpression           : cmpExpressionPlain | ( '(' spaceBeforeExpression? cmpExpressionPlain spaceAfterExpression? ')' ) ;
 
-cmpExpressionPlain      : (argName spaceAfterArgName ( cmpIsUnknown | cmpIsNotUnknown | cmpAnyOf | cmpBetween | cmpContains | cmpContainsAnyOf | cmpInnerNot | cmpStrictInnerNot)) | (argName space? ( cmpEquals | cmpNotEquals | cmpLessThan | cmpLessThanOrEquals | cmpGreaterThan | cmpGreaterThanOrEquals)) | (STRICT spaceAfterStrict argName spaceAfterArgName? cmpStrictNotEquals) ;
+cmpExpressionPlain      : (argName spaceAfterArgName ( cmpIsUnknown | cmpIsNotUnknown | cmpAnyOf | cmpBetween | cmpContains | cmpContainsAnyOf | cmpInnerNot | cmpStrictInnerNot)) | (argName spaceAfterArgName? ( cmpEquals | cmpNotEquals | cmpLessThan | cmpLessThanOrEquals | cmpGreaterThan | cmpGreaterThanOrEquals)) | (STRICT spaceAfterStrict argName spaceAfterArgName? cmpStrictNotEquals) ;
 
 /* start rule */
 query                   : spaceBeforeExpression? anyExpression spaceAfterExpression? EOF ;
