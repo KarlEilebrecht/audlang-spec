@@ -63,8 +63,10 @@ public class AdlParseResultUtils {
         res.setCntContains(countRuleOccurrences(parseResult, "cmpContainsAnyOf", "cmpContains"));
         res.setCntCurb(countRuleOccurrences(parseResult, "curbExpression"));
         res.setCntIs(countRuleOccurrences(parseResult, "cmpIsUnknown", "cmpIsNotUnknown"));
+        res.setCntUnknown(countRuleOccurrences(parseResult, "cmpIsUnknown", "cmpIsNotUnknown"));
         res.setCntNone(countRuleOccurrences(parseResult, "noneExpression"));
         res.setCntNot(countRuleOccurrences(parseResult, "cmpIsNotUnknown", "cmpInnerNot", "notExpression"));
+        res.setCntStrict(countRuleOccurrences(parseResult, "spaceAfterStrict"));
         res.setCntOf(countRuleOccurrences(parseResult, "cmpAnyOf", "cmpContainsAnyOf"));
         res.setCntOr(countTokenOccurrences(parseResult, "OR"));
 
@@ -91,8 +93,10 @@ public class AdlParseResultUtils {
         assertEquals(expected.getCntContains(), actual.getCntContains());
         assertEquals(expected.getCntCurb(), actual.getCntCurb());
         assertEquals(expected.getCntIs(), actual.getCntIs());
+        assertEquals(expected.getCntUnknown(), actual.getCntUnknown());
         assertEquals(expected.getCntNone(), actual.getCntNone());
         assertEquals(expected.getCntNot(), actual.getCntNot());
+        assertEquals(expected.getCntStrict(), actual.getCntStrict());
         assertEquals(expected.getCntOf(), actual.getCntOf());
         assertEquals(expected.getCntOr(), actual.getCntOr());
 
