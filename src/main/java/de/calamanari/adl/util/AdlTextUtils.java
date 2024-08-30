@@ -99,7 +99,8 @@ public class AdlTextUtils {
 
         ParserState state = new ParserState(input);
 
-        if ((!input.isEmpty() && input.charAt(0) == '@') || RESERVED_LITERALS.contains(input)) {
+        if (input.isEmpty() || (!input.isEmpty() && input.charAt(0) == '@') || RESERVED_LITERALS.contains(input)) {
+            // The empty string must be written in double-quotes
             // Audlang TEXT_PLAIN must not start with the @-symbol
             // all Audlang literals must be printed in double quotes to avoid ambiguity
             state.modified = true;
@@ -143,17 +144,13 @@ public class AdlTextUtils {
      *             the end of the String.
      */
     public static String removeDoubleQuotesIfRequired(String input) {
-        if (input == null) {
-            throw new IllegalArgumentException("null is not allowed, neither with nor without quotes");
-        }
+        validateTextIsInDoubleQuotes(input);
 
-        if (input.isEmpty() || input.charAt(0) != '"') {
+        if (input.equals("\"\"")) {
+            return "";
+        }
+        else if (input.isEmpty() || input.charAt(0) != '"') {
             return input;
-        }
-
-        if (input.length() == 1 || input.charAt(input.length() - 1) != '"') {
-            throw new IllegalArgumentException(
-                    String.format("Unexpected input, expecting '\"...\"', found '\"...' (implementation error), problematic text: '%s'", input));
         }
 
         ParserState state = new ParserState(input);
@@ -183,6 +180,20 @@ public class AdlTextUtils {
         }
 
         return state.getOutput();
+    }
+
+    /**
+     * @param input
+     */
+    private static void validateTextIsInDoubleQuotes(String input) {
+        if (input == null) {
+            throw new IllegalArgumentException("null is not allowed, neither with nor without quotes");
+        }
+        if (input.isEmpty() || (input.equals("\"")) || (input.charAt(0) == '"' && input.charAt(input.length() - 1) != '"')
+                || (input.charAt(0) != '"' && input.charAt(input.length() - 1) == '"')) {
+            throw new IllegalArgumentException(
+                    String.format("Unexpected input, expecting '\"...\"' or '...' (implementation error), problematic input: '%s'", input));
+        }
     }
 
     /**

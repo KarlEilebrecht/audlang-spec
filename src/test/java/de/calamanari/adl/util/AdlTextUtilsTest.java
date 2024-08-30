@@ -74,7 +74,7 @@ class AdlTextUtilsTest {
     static {
         Map<String, String> map = new LinkedHashMap<>();
 
-        map.put("", "");
+        map.put("", "\"\"");
         map.put("\"", "\"\"\"\"");
         map.put("argName", "argName");
         map.put("argument name", "\"argument name\"");
@@ -172,6 +172,8 @@ class AdlTextUtilsTest {
         assertThrows(IllegalArgumentException.class, () -> AdlTextUtils.removeDoubleQuotesIfRequired("\"test\u0000\""));
 
         assertThrows(IllegalArgumentException.class, () -> AdlTextUtils.removeDoubleQuotesIfRequired("\""));
+
+        assertThrows(IllegalArgumentException.class, () -> AdlTextUtils.removeDoubleQuotesIfRequired("bad\""));
 
         assertThrows(IllegalArgumentException.class, () -> AdlTextUtils.removeDoubleQuotesIfRequired("\"\"x\"\" "));
 
