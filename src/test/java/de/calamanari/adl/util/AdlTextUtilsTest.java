@@ -130,6 +130,16 @@ class AdlTextUtilsTest {
     }
 
     @Test
+    void testAudlangLiteralsMustBeQuoted() {
+
+        assertEquals(628, AdlTextUtils.RESERVED_LITERALS.size());
+
+        for (String reserved : AdlTextUtils.RESERVED_LITERALS) {
+            assertEquals("\"" + reserved + "\"", AdlTextUtils.addDoubleQuotesIfRequired(reserved));
+        }
+    }
+
+    @Test
     void testUnescape() {
 
         AdlTextUtils.unescapeSpecialCharacters("\\\\<HT>");

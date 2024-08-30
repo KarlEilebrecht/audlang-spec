@@ -19,10 +19,14 @@
 
 package de.calamanari.adl.util;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.IntSummaryStatistics;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -37,6 +41,47 @@ public class AdlTextUtils {
      * List of characters that can only appear inside double-quoted text
      */
     private static final String RESERVED_AUDLANG_CHARS = " ()<>=,!/\"*";
+
+    /**
+     * Set with all spelling variations of the reserved Audlang language words
+     */
+    static final Set<String> RESERVED_LITERALS;
+    static {
+        String[] templates = new String[] { "AND", "OR", "STRICT", "NOT", "IS", "ANY", "OF", "BETWEEN", "CONTAINS", "CURB", "UNKNOWN" };
+
+        List<String> literalVariations = new ArrayList<>();
+
+        StringBuilder sb = new StringBuilder();
+
+        for (String template : templates) {
+            computeSpellingVariations(template, 0, sb, literalVariations);
+        }
+        RESERVED_LITERALS = Collections.unmodifiableSet(new HashSet<>(literalVariations));
+    }
+
+    /**
+     * Takes the uppercase templates and computes all upper-case/lower-case variations for fast lookup
+     * 
+     * @param template
+     * @param idx
+     * @param sb
+     * @param result
+     */
+    static void computeSpellingVariations(String template, int idx, StringBuilder sb, List<String> result) {
+
+        if (idx == template.length()) {
+            result.add(sb.toString());
+        }
+        else {
+            sb.append(template.charAt(idx));
+            computeSpellingVariations(template, idx + 1, sb, result);
+            sb.setLength(sb.length() - 1);
+            sb.append(Character.toLowerCase(template.charAt(idx)));
+            computeSpellingVariations(template, idx + 1, sb, result);
+            sb.setLength(sb.length() - 1);
+        }
+
+    }
 
     /**
      * Surrounds the given argument name, value or text snippet with double quotes and replaces any contained double quote (<code>&quot;</code>) by two
@@ -54,8 +99,9 @@ public class AdlTextUtils {
 
         ParserState state = new ParserState(input);
 
-        if (!input.isEmpty() && input.charAt(0) == '@') {
+        if ((!input.isEmpty() && input.charAt(0) == '@') || RESERVED_LITERALS.contains(input)) {
             // Audlang TEXT_PLAIN must not start with the @-symbol
+            // all Audlang literals must be printed in double quotes to avoid ambiguity
             state.modified = true;
         }
 
