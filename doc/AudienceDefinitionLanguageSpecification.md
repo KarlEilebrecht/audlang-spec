@@ -702,7 +702,7 @@ In the little example above the query `STRICT car.color != red` **only returns r
  * `NOT <NONE>` $:=$ `<ALL>`
  * `NOT NOT argName = argValue` $\Leftrightarrow$ `argName = argValue`
  * `NOT STRICT NOT argName = argValue ` $\Leftrightarrow$ `argName = argValue OR argName IS UNKNOWN`
- * `NOT argName IS STRICT NOT UNKNOWN ` $\Leftrightarrow$ `argName IS UNKNOWN`
+ * `NOT STRICT NOT argName IS UNKNOWN ` $\Leftrightarrow$ `argName IS UNKNOWN`
  * `NOT ( expr1 AND expr2 )` $\Leftrightarrow$ `NOT expr1 OR NOT expr2`
  * `NOT ( expr1 OR expr2 )` $\Leftrightarrow$ `NOT expr1 AND NOT expr2`
  * `NOT CURB (...) = n` $\Leftrightarrow$ `CURB (...) != n`
@@ -952,7 +952,7 @@ The following examples show plausibility and consistency.
    <=> a=1
    ```
 
-:bulb: Remark: `NOT (argName IS STRICT NOT UNKNOWN)` $\Leftrightarrow$ `argName IS UNKNOWN OR argName IS UNKNOWN` $\Leftrightarrow$ `argName IS UNKNOWN` because *non-strict not* always **includes** the unknowns.
+:bulb: Remark: `NOT (STRICT NOT argName IS UNKNOWN)` $\Leftrightarrow$ `argName IS UNKNOWN OR argName IS UNKNOWN` $\Leftrightarrow$ `argName IS UNKNOWN` because *non-strict not* always **includes** the unknowns.
 
 [:arrow_right: §5 Negation](#5-negation)
 
@@ -980,6 +980,6 @@ However, implementors are encouraged to help users understand the implications (
 
 | Version | Date | Changes |
 | :-----|:-----|:-----|
-| 1.11  | September 2024    | Example added for NOT arg IS STRICT NOT UNKNOWN |
+| 1.11  | September 2024    | Example added for NOT (STRICT NOT arg IS UNKNOWN) |
 | 1.1   | August 2024       | Clarification regarding CURB |
 | 1.0   | August 2024       | First specification release  |
