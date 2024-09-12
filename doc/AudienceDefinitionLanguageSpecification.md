@@ -3,7 +3,7 @@
 
 # Audience Definition Language Specification
 
-***Version 1.1*** *([August 2024](#document-history))*
+***Version 1.11*** *([September 2024](#document-history))*
 
 The Audience Definition Language (Audlang) is a common expression language for defining audiences based on criteria (attributes and their values) *independent* from any concrete storage layer or data model (see also [:information_source: **Main Goals**](#main-goals)).
 
@@ -702,6 +702,7 @@ In the little example above the query `STRICT car.color != red` **only returns r
  * `NOT <NONE>` $:=$ `<ALL>`
  * `NOT NOT argName = argValue` $\Leftrightarrow$ `argName = argValue`
  * `NOT STRICT NOT argName = argValue ` $\Leftrightarrow$ `argName = argValue OR argName IS UNKNOWN`
+ * `NOT argName IS STRICT NOT UNKNOWN ` $\Leftrightarrow$ `argName IS UNKNOWN`
  * `NOT ( expr1 AND expr2 )` $\Leftrightarrow$ `NOT expr1 OR NOT expr2`
  * `NOT ( expr1 OR expr2 )` $\Leftrightarrow$ `NOT expr1 AND NOT expr2`
  * `NOT CURB (...) = n` $\Leftrightarrow$ `CURB (...) != n`
@@ -915,7 +916,7 @@ STRICT NOT ( (a=1 AND b=2) OR (c=2 AND d!=5) )
 
 The following examples show plausibility and consistency.
 
-:bulb: Reminder: `STRICT NOT (argName IS NOT UNKNOWN)` $:=$ `<NONE>` because *strict not* always excludes the unknowns.
+:bulb: Reminder: `STRICT NOT (argName IS NOT UNKNOWN)` $:=$ `<NONE>` because *strict not* always **excludes** the unknowns.
 
  * `NOT NOT argName = argValue ` $\Leftrightarrow$ `argName = argValue` :white_check_mark:
    ```
@@ -951,6 +952,8 @@ The following examples show plausibility and consistency.
    <=> a=1
    ```
 
+:bulb: Remark: `NOT (argName IS STRICT NOT UNKNOWN)` $\Leftrightarrow$ `argName IS UNKNOWN OR argName IS UNKNOWN` $\Leftrightarrow$ `argName IS UNKNOWN` because *non-strict not* always **includes** the unknowns.
+
 [:arrow_right: §5 Negation](#5-negation)
 
 ### Dealing with reference values
@@ -977,5 +980,6 @@ However, implementors are encouraged to help users understand the implications (
 
 | Version | Date | Changes |
 | :-----|:-----|:-----|
-| 1.1   | August 2024    | Clarification regarding CURB |
-| 1.0   | August 2024    | First specification release |
+| 1.11  | September 2024    | Example added for NOT arg IS STRICT NOT UNKNOWN |
+| 1.1   | August 2024       | Clarification regarding CURB |
+| 1.0   | August 2024       | First specification release  |
