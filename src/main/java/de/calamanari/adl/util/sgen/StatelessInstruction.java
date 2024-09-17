@@ -25,6 +25,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.function.Consumer;
 
+import de.calamanari.adl.util.TriFunction;
+
 /**
  * This enumeration covers the majority of all token-based stateless instructions to extend sample expressions.
  * 
@@ -673,11 +675,6 @@ public enum StatelessInstruction implements TemplateInstruction {
 
         private static final String[] TPL_BOUND = new String[] { "1", "0", "10", "2", "3", "4", "5", "6", "7", "8", "9", "999" };
 
-    }
-
-    @FunctionalInterface
-    interface TriFunction<T, U, L, R> {
-        R apply(T t, U u, L l);
     }
 
 }
