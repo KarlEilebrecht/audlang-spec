@@ -2,7 +2,7 @@
 
 The Audience Definition Language aims to define a standard expression language for defining audiences for advertising purposes.
 
-**:bulb: [Here](./doc/Motivation.md) you can find the motivation for this project.**
+**:bulb: [:point_right: Here](./doc/Motivation.md) you can find the motivation for this project.**
 
 This is primarily a **specification project** to maintain the [Audience Definition Language Specification](./doc/AudienceDefinitionLanguageSpecification.md). Its main artifact is a zip-archive including the [ANTLR4-grammar](./src/main/antlr4/Audlang.g4), the language documentation and a comprehensive number of samples for testing your parser implementation.
 
@@ -22,6 +22,6 @@ For creating a Java parser-implementation simply create a dependency to this JAR
 
 For further dependencies required to run the java code please refer to this project's POM.
 
-:bulb: The generated samples are not part of the jar, but using the classes from the aforementioned JAR they can be generated on demand. Review the test classes of this project for details.
+:bulb: The generated samples are not part of the jar, but they can be generated on demand by using the classes from the aforementioned JAR. Review the test classes of this project for details.
 
 
