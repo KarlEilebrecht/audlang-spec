@@ -1,9 +1,11 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.calamanari.adl</groupId>
 	<artifactId>audlang-spec</artifactId>
 	<packaging>jar</packaging>
-	<version>1.0.1-SNAPSHOT</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<name>Audlang Specification</name>
 	<description>Audience Definition Language Specification</description>
 
@@ -22,10 +24,11 @@
 
 	<scm>
 		<connection>scm:git:https://github.com/KarlEilebrecht/audlang-spec.git</connection>
-		<developerConnection>scm:git:https://github.com/KarlEilebrecht/audlang-spec.git</developerConnection>
+		<developerConnection>
+			scm:git:https://github.com/KarlEilebrecht/audlang-spec.git</developerConnection>
 		<url>https://github.com/KarlEilebrecht/audlang-spec</url>
-	  <tag>audlang-spec-1.0.0</tag>
-  </scm>
+		<tag>audlang-spec-1.0.0</tag>
+	</scm>
 
 	<distributionManagement>
 		<repository>
@@ -99,6 +102,15 @@
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>3.11.1</version>
+				<configuration>
+					<show>protected</show>
+					<failOnError>false</failOnError>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.12.1</version>
 				<configuration>
@@ -166,6 +178,11 @@
 						</configuration>
 					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<version>3.1.3</version>
 			</plugin>
 		</plugins>
 	</build>
