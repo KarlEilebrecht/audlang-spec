@@ -23,8 +23,8 @@
 
 
 	<scm>
-		<connection>scm:git:git@github.com:KarlEilebrecht/audlang-spec.git</connection>
-		<developerConnection>scm:git:git@github.com:KarlEilebrecht/audlang-spec.git</developerConnection>
+		<connection>scm:git:https://github.com/KarlEilebrecht/audlang-spec.git</connection>
+		<developerConnection>scm:git:https://github.com/KarlEilebrecht/audlang-spec.git</developerConnection>
 		<url>https://github.com/KarlEilebrecht/audlang-spec</url>
 	</scm>
 
