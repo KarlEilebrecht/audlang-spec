@@ -36,6 +36,14 @@ jobs:
         distribution: 'temurin'
         github-token: ${{ secrets.GITHUB_TOKEN }}
         cache: maven
-        
+
+    - name: View settings.xml
+      run: cat /home/runner/.m2/settings.xml        
+
+    - name: Configure Git user
+      run: |
+          git config user.email "actions@github.com"
+          git config user.name "GitHub Actions"      
+
     - name: Release with Maven
       run: mvn -B release:prepare release:perform
