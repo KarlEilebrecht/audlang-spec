@@ -45,5 +45,7 @@ jobs:
           git config user.email "actions@github.com"
           git config user.name "GitHub Actions"      
 
-    - name: Release with Maven
-      run: mvn -B release:prepare release:perform
+    - name: Create Maven Release
+      run: ./mvnw -B release:prepare release:perform
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
