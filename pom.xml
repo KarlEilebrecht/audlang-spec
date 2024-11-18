@@ -21,6 +21,21 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
+
+	<scm>
+		<connection>scm:git:git@github.com:KarlEilebrecht/audlang-spec.git</connection>
+		<developerConnection>scm:git:git@github.com:KarlEilebrecht/audlang-spec.git</developerConnection>
+		<url>https://github.com/KarlEilebrecht/audlang-spec</url>
+	</scm>
+
+	<distributionManagement>
+		<repository>
+			<id>github</id>
+			<name>GitHub KarlEilebrecht Apache Maven Packages</name>
+			<url>https://maven.pkg.github.com/KarlEilebrecht/audlang-spec</url>
+		</repository>
+	</distributionManagement>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.antlr</groupId>
