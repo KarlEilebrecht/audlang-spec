@@ -28,7 +28,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Plan with all groups of sample generation instructions to be executed in a single run.
- * <p/>
+ * <p>
  * A plan is stable in the sense that repeated execution will produce the same output.
  * 
  * @author <a href="mailto:Karl.Eilebrecht(a/t)calamanari.de">Karl Eilebrecht</a>

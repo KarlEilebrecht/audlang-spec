@@ -28,6 +28,10 @@ import java.util.List;
  */
 public record GenInstructionGroup(String group, List<GenInstruction> members) {
 
+    /**
+     * @param group
+     * @param members
+     */
     public GenInstructionGroup {
         if (group == null || group.isBlank() || members == null) {
             throw new IllegalArgumentException(String.format("Arguments group and members must not be null or blank, given: group=%s, members=%s", group,

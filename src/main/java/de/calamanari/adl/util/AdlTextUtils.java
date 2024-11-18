@@ -85,7 +85,7 @@ public class AdlTextUtils {
 
     /**
      * Surrounds the given argument name, value or text snippet with double quotes and replaces any contained double quote (<code>&quot;</code>) by two
-     * subsequent double-quotes (<code>&quot;</code>),<br/>
+     * subsequent double-quotes (<code>&quot;</code>),<br>
      * if required to conform with the Audlang specification for PLAIN_TEXT and QUOTED_TEXT.
      * 
      * @param input text to be quoted if necessary
@@ -133,9 +133,9 @@ public class AdlTextUtils {
 
     /**
      * Surrounds the given argument name, value or text snippet with double quotes and replaces any contained double quote (<code>&quot;</code>) by two
-     * subsequent double-quotes (<code>&quot;</code>),<br/>
+     * subsequent double-quotes (<code>&quot;</code>),<br>
      * if required to conform with the Audlang specification for PLAIN_TEXT and QUOTED_TEXT.
-     * <p/>
+     * <p>
      * <b>Notes:</b> This method returns immediately if the first character is not a double-quote.
      * 
      * @param input text to remove surrounding double-quotes and unescape internal double-quotes
@@ -198,7 +198,7 @@ public class AdlTextUtils {
 
     /**
      * Escapes all special characters which are not allowed in Audlang argument names or values.
-     * <p/>
+     * <p>
      * <b>Note:</b> This method is <i><b>not</b> idempotent</i>, means: <code>escapeSpecialCharacters(escapeSpecialCharacters(input))</code> may not always
      * equal <code>escapeSpecialCharacters(input)</code>.
      * 
@@ -238,7 +238,7 @@ public class AdlTextUtils {
 
     /**
      * Unescapes special characters previously escaped with {@link #escapeSpecialCharacters(String)}
-     * <p/>
+     * <p>
      * <b>Note:</b> This method is <i><b>not</b> idempotent</i>, means: <code>unescapeSpecialCharacters(unescapeSpecialCharacters(input))</code> may not always
      * equal <code>unescapeSpecialCharacters(input)</code>.
      * 

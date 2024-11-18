@@ -24,7 +24,7 @@ import java.util.function.Supplier;
 
 /**
  * A {@link TemplateInstruction} is command to be executed on a sample expression template to create one or multiple result expressions in a sequential manner.
- * <p/>
+ * <p>
  * The output(s) are complete (valid) once all instructions in a row have been applied (left to right).
  * 
  * @author <a href="mailto:Karl.Eilebrecht(a/t)calamanari.de">Karl Eilebrecht</a>

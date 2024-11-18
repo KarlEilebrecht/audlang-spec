@@ -25,7 +25,7 @@ import java.util.function.Predicate;
 /**
  * An {@link IdFilterReuseExpressionInstruction} appends the text of one or multiple referenced previously generated sample expressions to the expression
  * generated until this point.
- * <p/>
+ * <p>
  * The logic based on a given idFilter text works as follows:
  * <ul>
  * <li>First check if there is an exact match among the expression ids generated so far, in case of multiple, take the first occurrence to keep the process
@@ -44,7 +44,7 @@ public class IdFilterReuseExpressionInstruction extends AbstractReuseExpressionI
     protected final String idFilter;
 
     /**
-     * @param filter template id or group name
+     * @param idFilter template id or group name
      */
     public IdFilterReuseExpressionInstruction(String idFilter) {
         super(baseList -> filter(baseList, idFilter));

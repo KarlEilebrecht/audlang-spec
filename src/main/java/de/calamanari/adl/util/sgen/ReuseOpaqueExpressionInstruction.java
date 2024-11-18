@@ -28,9 +28,6 @@ import java.util.function.Predicate;
  */
 public class ReuseOpaqueExpressionInstruction extends AbstractReuseExpressionInstruction {
 
-    /**
-     * @param listSupplier to obtain the list of the already generated expressions
-     */
     public ReuseOpaqueExpressionInstruction() {
         super(baseList -> baseList.stream().filter(Predicate.not(SampleExpression::invalid)).filter(Predicate.not(SampleExpression::composite)).toList());
     }

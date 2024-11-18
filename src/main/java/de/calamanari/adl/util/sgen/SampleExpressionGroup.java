@@ -29,7 +29,7 @@ import de.calamanari.adl.util.JsonUtils;
 
 /**
  * A {@link SampleExpressionGroup} keeps together samples of a certain kind with an associated id.
- * <p/>
+ * <p>
  * Note: The identifier {@link #group()} defines the identity of the group (equals/hashCode) and also potentially serves as a file name to store a sample group.
  * 
  * @author <a href="mailto:Karl.Eilebrecht(a/t)calamanari.de">Karl Eilebrecht</a>
@@ -37,6 +37,11 @@ import de.calamanari.adl.util.JsonUtils;
 public record SampleExpressionGroup(String group, List<SampleExpression> samples, @JsonInclude(JsonInclude.Include.NON_DEFAULT) boolean skip)
         implements Serializable {
 
+    /**
+     * @param sample
+     * @param group
+     * @return expression
+     */
     private static SampleExpression updateSampleWithGroup(SampleExpression sample, String group) {
         SampleExpression res = sample;
         if (sample.generationInfo() == null) {

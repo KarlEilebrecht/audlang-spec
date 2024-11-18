@@ -29,7 +29,7 @@ import de.calamanari.adl.AdlException;
 
 /**
  * A few utilities required to create meta data and random choices during the generation process.
- * <p/>
+ * <p>
  * Any random-choices are semi-stable because the randomness does not depend on the time or order but solely on the expression's id and text generated until
  * this point.
  * 
@@ -88,7 +88,7 @@ public class GenDataUtils {
     }
 
     /**
-     * Creates a new random instance based on a hash of the given value.<br/>
+     * Creates a new random instance based on a hash of the given value.<br>
      * This avoids the problem of a global random instance with side effects and dependency on execution order when creating a random selection of values from a
      * list.
      * 
@@ -100,11 +100,11 @@ public class GenDataUtils {
     }
 
     /**
-     * Creates a new random instance based on a hash of the given {@link SampleExpression#expression()} text.<br/>
+     * Creates a new random instance based on a hash of the given {@link SampleExpression#expression()} text.<br>
      * This avoids the problem of a global random instance with side effects and dependency on execution order when creating a random selection of values from a
      * list.
      * 
-     * @param expression current input expression
+     * @param inputExpression current input expression
      * @return random instance
      */
     public static Random createRandomWithSeed(SampleExpression inputExpression) {

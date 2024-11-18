@@ -31,7 +31,7 @@ import de.calamanari.adl.util.JsonUtils;
 
 /**
  * A {@link SampleGenInfo} stores details about a sample's generation process (number of tokens, values, comments, etc.).
- * <p/>
+ * <p>
  * This information can later be used to test whether the corresponding ANTLR-parser understands the generated example correctly.
  * 
  * @author <a href="mailto:Karl.Eilebrecht(a/t)calamanari.de">Karl Eilebrecht</a>
@@ -364,7 +364,7 @@ public class SampleGenInfo implements Serializable {
     }
 
     /**
-     * @param cntAnd count of generated CURB-tokens
+     * @param cntCurb count of generated CURB-tokens
      */
     public void setCntCurb(int cntCurb) {
         this.cntCurb = cntCurb;
@@ -427,7 +427,7 @@ public class SampleGenInfo implements Serializable {
     }
 
     /**
-     * @param cntOr count of generated OR-tokens
+     * @param cntOf count of generated OR-tokens
      */
     public void setCntOf(int cntOf) {
         this.cntOf = cntOf;

@@ -91,7 +91,7 @@ public class SampleExpressionUtils {
     /**
      * Writes a catalog file listing group meta data
      * 
-     * @param samples to be written
+     * @param catalog to be written
      * @param fileName absolute file name
      * @throws IOException
      */

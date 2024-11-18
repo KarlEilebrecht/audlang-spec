@@ -22,7 +22,7 @@ package de.calamanari.adl.util.sgen;
 import java.util.List;
 
 /**
- * When we have many sample expressions organized in groups it makes sense to store them in multiple files, one per group.<br/>
+ * When we have many sample expressions organized in groups it makes sense to store them in multiple files, one per group.<br>
  * However, this complicates handling. Thus I decided to provide a catalog (file), so a single entry point will allow discovering all samples.
  * 
  * @author <a href="mailto:Karl.Eilebrecht(a/t)calamanari.de">Karl Eilebrecht</a>

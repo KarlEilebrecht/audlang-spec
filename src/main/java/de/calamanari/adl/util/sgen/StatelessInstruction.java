@@ -45,12 +45,12 @@ public enum StatelessInstruction implements TemplateInstruction {
     OPTIONAL_WHITESPACE_OR_COMMENT(BasicPatterns.TPL_OPTIONAL_WHITESPACE_OR_COMMENT, StatelessInstruction::augmentWithWhitespaceOrComment, 1),
 
     /**
-     * appends the <ALL> expression, varies spelling
+     * appends the &lt;ALL&gt; expression, varies spelling
      */
     ALL(BasicPatterns.TPL_ALL, StatelessInstruction::augmentWithTokenMultiSelect, 1),
 
     /**
-     * appends the <NONE> expression, varies spelling
+     * appends the &lt;NONE&gt; expression, varies spelling
      */
     NONE(BasicPatterns.TPL_NONE, StatelessInstruction::augmentWithTokenMultiSelect, 1),
 
