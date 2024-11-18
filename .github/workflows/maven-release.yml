@@ -23,7 +23,12 @@ on:
         default: "A.B.D-SNAPSHOT"
 
 jobs:
-  build:
+
+  release:
+
+    permissions:
+      contents: write
+      pages: write
 
     runs-on: ubuntu-latest
 
