@@ -4,7 +4,7 @@
 # This workflow requires the release tag as parameter.
 
 
-name: Deploy existing release CI with Maven
+name: Deploy to github CI
 
 on:
   workflow_dispatch:
