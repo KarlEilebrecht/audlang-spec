@@ -3,11 +3,11 @@
 
 # Audience Definition Language Specification
 
-***Version 1.11*** *([September 2024](#document-history))*
+***Version 1.12*** *([November 2024](#document-history))*
 
 The Audience Definition Language (Audlang) is a common expression language for defining audiences based on criteria (attributes and their values) *independent* from any concrete storage layer or data model (see also [:information_source: **Main Goals**](#main-goals)).
 
-This specification is meant for implementers and users of the language. The document is organized in chapters covering the different language features. To keep the core specification concise, side notes (motivation, explanation) have been moved into the appendix.
+This specification is meant for implementors and users of the language. The document is organized in chapters covering the different language features. To keep the core specification concise, side notes (motivation, explanation) have been moved into the [Appendix](#appendix).
 
 Audlang is defined as an [ANTLR](https://www.antlr.org/)-grammar ([Audlang.g4](../src/main/antlr4/Audlang.g4)) with additional definitions and conventions explained in this specification.
 
@@ -18,10 +18,12 @@ Throughout this document we will use the following notation:
 * `argValue` will be used to represent any **argument value**, e.g., "Denmark" ([§1.2.2](#122-argument-values)).
 * `snippet` stands for any piece of text ([§1.2.4](#124-snippets)).
 * `expr` stands for any other Audlang-expression ([§3](#3-basic-expressions), [§4](#4-composite-expressions)).
-* The term **base audience** refers to the entirety of available records in a system we can make selections on with certain criteria.
+* The term **base audience** refers to the entirety of available records in a system we can select from with certain criteria.
 * The term **population** refers to virtual set of people in the real world a system's base audience is meant to reflect.
 * **:bulb: Hint** Advice or clue in the current context.
 * **:warning: Warning** Information about potential problems.
+* :x: Non-compliant example.
+* :white_check_mark: Compliant example.
 * :information_source: **Notes** cover common explanation and comments. 
 * :twisted_rightwards_arrows: **Implementor Notes** provide additional information primarily of interest for language implementors.
 
@@ -68,7 +70,7 @@ A string (argument names, values and snippets) is a potentially empty sequence o
  * Strings require surrounding double quotes if they don't comply with the following rules:
    * The empty string is not a valid plain string (e.g., >< :x: vs. `""` :white_check_mark:).
    * First character must not be the `@`-symbol (e.g., `@home` :x: vs. `"@home"` :white_check_mark:).
-   * Plain strings must not contain the space character 
+   * Plain strings must not contain whitespace 
      * e.g., `red wine` :x: vs. `"red wine"` :white_check_mark:
    * Plain strings must not contain any of following symbols: `(`, `)`, `<`, `>`, `=`, `,`, `!`, `/`, `"`, `*` 
      * e.g., `http://foo.com` :x: vs. `"http://foo.com"` :white_check_mark:
@@ -139,7 +141,7 @@ Whitespace (' ', tabulator, carriage-return, line-break) is allowed anywhere out
 
 ### §1.5 Comments
 
-Audlang allows placing comments before, inside and after an expression. Every comment section or commented piece of an expression starts with `/*` and ends with `*/`.
+Audlang allows placing comments before, inside and after any expression. Every comment section or commented piece of an expression starts with `/*` and ends with `*/`.
 
 *Examples:* 
  * ```
@@ -171,7 +173,7 @@ Audlang allows placing comments before, inside and after an expression. Every co
 
 :warning: **Important Note:**
 
- * Comments are primarily meant for debugging and temporary use. They allow excluding and including parts of an expression without deleting the content.
+ * Comments are primarily meant for explanation, debugging and temporary use. They allow excluding and including parts of an expression without deleting the content.
  * Comments are **not part of the logical expression** and **not involved in the execution** of an expression in any way.
  
 **[:twisted_rightwards_arrows: Implementor Notes](#dealing-with-comments)**
@@ -295,7 +297,7 @@ Audlang language defines the date format `yyyy-MM-dd` with
 
 ### §3.5 Any of
 
-`argName` **`ANY OF`** `(argValue1, argValue2, argValue3)` matches if the value of the attribute "argName" is equal to the value "argValue1" *or* "argValue2" or "argValue3". The list inside round braces must contain at least one element.
+`argName` **`ANY OF`** `(argValue1, argValue2, argValue3)` matches if the value of the attribute "argName" is equal to the value "argValue1" *or* "argValue2" *or* "argValue3". The list inside round braces must contain at least one element.
 
 :bulb: `argName ANY OF (argValue1, argValue2)` is the shortform of `argName = argValue1 OR argName = argValue2`.
 
@@ -327,7 +329,7 @@ Audlang language defines the date format `yyyy-MM-dd` with
 
 ### §3.8 Is (Not) Unknown
 
-`argName` **`IS UNKNOWN`** matches if the **value** of the attribute "argName" is **unavailable** for a given record.
+`argName` **`IS UNKNOWN`** matches a record of the base audience if the **value** of the attribute "argName" is **unavailable** for this record.
 
 Accordingly, `argName` **`IS NOT UNKNOWN`** matches all records which have *any value*.
 
@@ -336,7 +338,7 @@ Accordingly, `argName` **`IS NOT UNKNOWN`** matches all records which have *any 
 **[:information_source: Common Notes](#about-unknown-values)**, **[:twisted_rightwards_arrows: Implementor Notes](#dealing-with-unknown-values)**
 
 *Examples:*
- * `pq127 IS UNKNOWN` means: *"Panel question 127 not answered."*
+ * `pq127 IS UNKNOWN` could express: *"Panel question 127 not answered."*
  * `pq127 IS NOT UNKNOWN` means: *"Panel question 127 has been answered."*
 
 ### §3.9 All and None
@@ -381,7 +383,7 @@ You can combine any two or more expressions with the `OR`-operator to define tha
 
 A `CURB` expression allows to define a **fulfilment limit** on a set of expressions (e.g., *"two of five"*). 
 
-`CURB (expr1 OR expr2 OR expr3 ...) =|!=|<=|>=|<|> bound` counts the number of matching expressions inside the curb *for each record* to compare it against the given bound.
+`CURB (expr1 OR expr2 OR expr3 ...) =|!=|<=|>=|<|> bound` counts the number of matching expressions inside the curb *for each individual record* to compare it against the given bound.
 
 :bulb: Any Audlang expression (including composite expressions) can be member of a `CURB`-expression.
 
@@ -404,7 +406,7 @@ Audlang distinguishes two forms of negation, the *intuitive* **default** negatio
 
 ### §5.1 Default Negation
 
-Every expression can be preceded with `NOT` to express its negation. For better readability some basic expressions support an inline operator (see examples below).
+Every expression can be preceded with `NOT` to express its negation. For better readability some basic expressions support an *infix negation* (see examples below).
 
 On attribute level (basic expressions) a default `NOT` **includes** the unknowns:
  * `NOT color = red` resp. `color != red` technically means: *"color is not red or we don't know the color"*.
@@ -418,7 +420,7 @@ On attribute level (basic expressions) a default `NOT` **includes** the unknowns
 
 ### §5.2 Strict Negation
 
-Every expression can be preceded with `STRICT NOT` to express its strict negation. For better readability some basic expressions support an inline operator (see examples below).
+Every expression can be preceded with `STRICT NOT` to express its strict negation. Alternatively, `STRICT` can prepend *infix negations* (see examples below).
 
 On attribute level (basic expressions) a `STRICT NOT` **excludes** the unknowns:
  * `STRICT NOT color = red` resp. `STRICT color != red` technically means: *"we know the color and it is not red"*.
@@ -433,11 +435,11 @@ On attribute level (basic expressions) a `STRICT NOT` **excludes** the unknowns:
 
 ### §6 Reference Value Matching
 
-Sometimes it is desirable to compare two attributes of the same record against eachother.
+Sometimes it is desirable to compare two attributes of the same record against each other.
 
-For this purpose Audlang defines [argument references](#123-argument-reference). Starting with an `@`-symbol followed by the attribute name they can be used in most places where otherwise values must be specified.
+For this purpose Audlang defines [argument references](#123-argument-reference). Starting with an `@`-symbol followed by the attribute name references can be used in most places where otherwise values must be specified.
 
-For example `address.country=@home_country` would match if the address' country field has the same value as the *home_country* field from the same record.
+For example `address.country = @home_country` would match if the address' country field has the same value as the *home_country* field taken from *the same record* of the base audience.
 
 The following operations support argument references:
 
@@ -453,7 +455,7 @@ The following operations support argument references:
 
 ### §7 Audlang and Collection Attributes
 
-Some systems collect multiple values for certain attributes from a stream or merge this data from various sources. In this case there is not *one single value* for an attribute in a record; the **argument value is a collection**.
+Some systems collect multiple values for certain attributes from a stream or merge data from various sources. In this case there is not *one single value* for an attribute in a record; the **argument value is a collection**.
 
 **[:twisted_rightwards_arrows: Implementor Notes](#dealing-with-collection-attributes)**
 
@@ -463,9 +465,9 @@ Below we specify the behavior of Audlang expressions on collection attributes:
 
 #### §7.1 Equals on Collection Attributes
 
- * If the left side of the equals-comparison is a collection attribute and the right side is an argument value, then every record matches if *any* of the collection members equals the given value.
- * If the left side of the equals-comparison is a collection attribute and the right side is an argument reference, then every record matches if *any* of the collection members equals the value of the referenced attribute.
- * If the left side of the equals-comparison is a standard (single-value) attribute and the right side is an argument reference to a collection attribute, then record matches if the record's value on the left equals *any* of the collection members of the referenced attribute on the right.
+ * If the left side of the equals-comparison is a collection attribute and the right side is an argument value, then a record matches if *any* of the collection members equals the given value.
+ * If the left side of the equals-comparison is a collection attribute and the right side is an argument reference, then a record matches if *any* of the collection members equals the value of the referenced attribute.
+ * If the left side of the equals-comparison is a standard (single-value) attribute and the right side is an argument reference to a collection attribute, then a record matches if the record's value on the left equals *any* of the collection members of the referenced attribute on the right.
  * If the left side of the equals-comparison is a collection attribute and the right side is an argument reference to another collection attribute, then a record matches if *any* of the collection members on the left equals *any* of the values of the referenced attribute's collection on the right (*"overlap is not empty"*).
 
  :bulb: In case of collection attributes the following otherwise impossible expression can be plausible: `multiSelectColor=red AND multiSelectColor=green`
@@ -489,7 +491,7 @@ Below we specify the behavior of Audlang expressions on collection attributes:
 
 #### §7.3 Less Than and Greater Than on Collection Attributes
 
-Below explanation is applicable to any of the operations less than, less than or equals, greater than etc.:
+Below explanation is applicable to any of the operators *less than*, *less than or equals*, *greater than* etc.:
 
  * If the left side of a less-than-comparison is a collection attribute and the right side is an argument value, then a record matches if *any* of the collection members is less than the given value.
  * If the left side of a less-than-comparison is a collection attribute and the right side is an argument reference, then a record matches if *any* of the collection members is less than the value of the referenced attribute.
@@ -516,7 +518,7 @@ Accordingly, in case of a negation:
 
 #### §7.4 Between on Collection Attributes
 
-:warning: The `BETWEEN` operator (see [§3.4](#34-between)) should not be used on collection attributes.
+:warning: To avoid confusion, the `BETWEEN` operator (see [§3.4](#34-between)) should not be used on collection attributes.
 
 `argName BETWEEN (7, 8)` is the same as `argName > 6 AND argName < 9` which leads to unexpected results in conjunction with collection attributes (see [§7.3](#avoid-range-queries-on-collection-attributes)).
 
@@ -561,7 +563,7 @@ The Audlang specification is based on a couple of guiding principles:
  * **Readability**: Avoid any cryptic features, give features natural names.
  * **End-user focus**: Rather be a DSL than a programming language. Users shall be able to read audience definitions fluently.
  * **Openness**: Don't create any unnecessary restrictions (e.g., level of nesting, argument name or value constraints).
- * **Completeness**: The feature set shall be consistent and complete (e.g., if `<` (less than) is allowed in a certain context, then `>` (greater than) must be allowed well). 
+ * **Completeness**: The feature set shall be consistent and complete (e.g., if `<` (less than) is allowed in a certain context, then `>` (greater than) should be allowed as well). 
 
  [:arrow_right: Introduction](#audience-definition-language-specification)
 
@@ -573,8 +575,8 @@ There are many ways to implement strings with escaping. After some experiments a
    * The backslash-escaping known from most programming languages has two disadvantages:
      * Typing the backslash feels strange for non-technical users.
      * You must escape all backslashes, so the escaping gets more complicated.
-   * Doubling the double-quote characters on the other hand is well-known to most users from tools like Microsoft Excel. This escaping logic is also technically much easer to implement.
- * Escaping in plain-text has no benefits, it only decreases readability. Thus it was decided to distinguish plain strings (restricted set of characters, but suitable for the majority of names resp. values) and double-quoted strings which may include all the allowed characters where any double-quote character needs to be doubled.
+   * Doubling the double-quote characters on the other hand is well-known to most users from tools like Microsoft Excel. This escaping format is also technically much easer to implement.
+ * Escaping in plain-text has no benefits, it only decreases readability. Thus it was decided to distinguish **plain strings** (restricted set of characters, suitable for the majority of names resp. values) from **double-quoted strings** which may include all the allowed characters with any double-quote character escaped by doubling it.
  * Control characters in strings are not allowed at all.
    * Most control characters will never appear anyway in audience definitions.
    * Tabulator is painful as it is an invisible character, sometimes hard to distinguish from a single space.
@@ -612,7 +614,7 @@ Indeed, it might be better practice to decompose a date into *year*, *month* and
 
 However, attributes like *last contact* in the system's base audience could be date fields, and it should be possible to create a condition based on such a field.
 
-The Audlang-convention increases readability and avoids ambiguity when writing expressions.
+The Audlang-convention for date increases readability and avoids ambiguity when writing expressions.
 
 [:arrow_right: §2.3 Date Values](#23-date-values)
 
@@ -622,7 +624,7 @@ Ideally, in an underlying base audience all missing values have been eliminated 
 
 However, this kind of preparation is not trivial, so we may see missing values for certain attributes of our base audience.
 
-This cannot be ignored (see also [§5 Negation](#5-negation)).
+This problem cannot be ignored (see also [§5 Negation](#5-negation)).
 
 `IS [NOT] UNKNOWN` makes it possible to address related records in the base audience *explicitly*.
 
@@ -634,19 +636,19 @@ Creating a simple *two-of-five* condition becomes extremely tedious based on `AN
 
 *Example:* 
 
-In a panel people were asked to answer 5 questions (q1 .. q5, each yes/no), and you want to filter all records where at least two of the questions has been answered with yes.
+In a panel people were asked to answer 5 questions (q1 .. q5, each yes (1)/no (0)), and you want to filter all records where at least two of the questions has been answered with yes.
 
 ```sql
-(q1=yes AND q2=yes)
-OR (q1=yes AND q3=yes) 
-OR (q1=yes AND q4=yes)
-OR (q1=yes AND q5=yes)
-OR (q2=yes AND q3=yes) 
-OR (q2=yes AND q4=yes)
-OR (q2=yes AND q5=yes)
-OR (q3=yes AND q4=yes)
-OR (q3=yes AND q5=yes)
-OR (q4=yes AND q5=yes)
+(q1=1 AND q2=1)
+OR (q1=1 AND q3=1) 
+OR (q1=1 AND q4=1)
+OR (q1=1 AND q5=1)
+OR (q2=1 AND q3=1) 
+OR (q2=1 AND q4=1)
+OR (q2=1 AND q5=1)
+OR (q3=1 AND q4=1)
+OR (q3=1 AND q5=1)
+OR (q4=1 AND q5=1)
 ```
 
 Obviously, this is lengthy and prone to errors.
@@ -654,7 +656,7 @@ Obviously, this is lengthy and prone to errors.
 Audlang's `CURB`-expression gives you a way to express the same condition in a short and readable form: 
 
 ```sql
-CURB ( q1=yes OR q2=yes OR q3=yes OR q4=yes OR q5=yes ) >= 2
+CURB ( q1=1 OR q2=1 OR q3=1 OR q4=1 OR q5=1 ) >= 2
 ```
 
 [:arrow_right: §4.3 Curbed Or](#43-curbed-or)
@@ -665,7 +667,7 @@ Negation (`NOT`) expresses the requirement that a certain condition *is not fulf
 
 As long as your database contains values for each attribute in every record there is no problem with negation. 
 
-Unfortunatly, often in the underlying data store there are *missing values*. For example, a certain panel question was not answered or data has been merged from multiple sources. This leads to *unknowns*. Audlang allows to explicitly deal with this situation using the `IS UNKNOWN` operator but we cannot magically solve a principle issue with unknown values in conjunction with negation.
+Unfortunatly, often there are *missing values* in the underlying data store. For example, a certain panel question was not answered or data has been merged from multiple sources. This leads to *unknowns*. Audlang allows to explicitly deal with this situation using the `IS UNKNOWN` operator but we cannot magically solve a principle issue with unknown values in conjunction with negation.
 
 To get a better understanding of the core problem, please look at the data store below:
 
@@ -682,7 +684,7 @@ The query `car.color != red` will return **2** records (**1599** and **8127**). 
 
 The problem is that we don't know the color of **1599**'s car, so we also don't know that it is *not red*. Maybe Toyotas are typically red or 80% are white, *who knows?*
 
-Ideally, preprocessing of the underlying data stores deals with this category of problems *beforehand*. All the missing values would be replaced with meaningful averages, and biases would have been detected and addresses appropriately.
+Ideally, preprocessing of the underlying data stores deals with this category of problems *beforehand*. All the missing values would be replaced with meaningful averages, and biases would have been detected and addressed appropriately.
 
 Thus, Audlang defines the intuitive complement negation (aka *"any except for"*) as the default behavior. Most of the time this will work well when defining audiences.
 
@@ -690,7 +692,7 @@ Thus, Audlang defines the intuitive complement negation (aka *"any except for"*)
 
 For special cases were a user intentionally wants to **exclude** the unknown values from a negation, Audlang defines the `STRICT NOT` operator.
 
-In the little example above the query `STRICT car.color != red` **only returns record 8127**. For this record we *know* that the car-color is not red.
+In the example above the query `STRICT car.color != red` would **only return record 8127**. For this record we *know* that the car-color is not red.
 
 #### Behavior of NOT
 
@@ -767,7 +769,7 @@ Usually, *empty string* is a discouraged attribute value and should be handled l
 
 ### Dealing with comments
 
-Because comments are not part of the expression nor influence the execution, implementors are free to either discard all comments during a parse run or treat them as first-class citizens. The latter is recommended if you intend to provide auto-formatting of expressions while preserving any comments.
+Because comments are not part of the expression nor influence the execution, implementors are free to either discard all comments during a parse run or treat them as first-class citizens. The latter is recommended if you intend to preserve comments when auto-formatting expressions.
 
 [:arrow_right: §1.5 Comments](#15-comments)
 
@@ -777,17 +779,17 @@ Embedding types (e.g. integer, float, boolean, etc.) into an expression language
  * Considerably higher grammar complexity.
  * Increased initial parsing and validation effort. 
    * :bulb: It is much easier to provide meaningful error messages if you have the name and the value to complain about than dealing with an ANTLR parse result that tells that there is *no viable alternative*. :smirk:
- * Data model coupling: If an attribute is currently defined as numeric, and for some reason you later need to switch to alpha-numeric values, you must *rewrite* all expressions referencing this attribute.
+ * Data model coupling: If an attribute is currently defined as numeric, and for some reason you later need to switch to alpha-numeric values, you must *rewrite* all existing expressions referencing this attribute.
 
-Audlang is *type-agnostic*, it is not aware of any value's type on language level. Consequently, solely based on an Audlang-expression one can only tell if the syntax is correct but not whether it is *valid* in the sense that it could be executed.
+Audlang is *type-agnostic*, it is not aware of any value's type on language level. Consequently, solely based on an Audlang-expression one can only tell if the syntax is correct but not whether the expression is *valid* in the sense that it could be executed.
 
-E.g., `number_of_children > "Harry"` is a valid Audlang-expression. But if `number_of_children` is numeric, this expression cannot be executed by the underlying technical infrastructure.
+E.g., `number_of_children > "Harry"` is a valid Audlang-expression. But if `number_of_children` is numeric, this expression could not be executed.
 
 It is left to subsequent parts of the application to deal with type resolution and validation as well as further plausibility checks.
 
-The Audlang type conventions shall help implementing a plausible consistent solution for dealing with typed values.
+The Audlang type conventions can help implementing a plausible consistent solution for dealing with typed values.
 
-:bulb: Any meta-data driven type-aware UI-component should apply the conventions whenever a user enters/selects a value of a known type when updating an expression.
+:bulb: Any meta-data driven type-aware UI-component should apply the conventions whenever a user enters/selects a value of a known type when editing an expression.
 
 [:arrow_right: §2 Type Conventions](#2-type-conventions)
 
@@ -811,7 +813,7 @@ The reduction to 7 decimal digits reduces the effective precision but increases 
 
 *Why is there no **time** type convention?*
 
-Well, time (of the day) is tricky, especially if you are collecting data across time zones. It is not a good idea to let a user query by time of the day on raw data. For plausible expressions based on the time of the day *preprocessing* of the base audience is crucial. If there is anyway a preprocessing/cleansing step, then it is a good practice to categorize the time values (e.g., just the hour portion or something like "morning", "noon", "afternoon", etc.) to support users in writing meaningful expressions.
+Well, time is tricky, especially if you are collecting data across time zones. It is not a good idea to let a user query by time of the day on raw data. For plausible expressions based on the time of the day *preprocessing* of the base audience is crucial. If there is anyway a preprocessing/cleansing step, then it is a good practice to categorize the time values (e.g., just the hour portion or something like "morning", "noon", "afternoon", etc.) to support users in writing meaningful expressions.
 
 [:arrow_right: §2.3 Date values](#23-date-values)
 
@@ -831,13 +833,13 @@ Well, time (of the day) is tricky, especially if you are collecting data across 
 
 `color = blue or color != blue or color is unknown`
 
-If you optimize this expression, the only possible outcome is `<ALL>` because there is no way for a record of the base audience *not* to fulfill this condition.
+If you optimize this expression, the only possible outcome is `<ALL>` because there is no way for any record of the base audience *not* to fulfill this condition.
 
 *Example 2:*
 
 `color = blue and color != blue`
 
-If you optimize this expression, the only possible answer is `<NONE>` because there is no way for a record of the base audience to fulfill this condition.
+If you optimize this expression, the only possible answer is `<NONE>` because there is no way for any record of the base audience to fulfill this condition.
 
 Concrete implementations should inform the users about this problem rather than wasting time with execution.
 
@@ -874,7 +876,7 @@ OR (color != red AND fabric != cotton AND look != fancy)
 This is of course the same as:
 `NOT (color = red AND fabric = cotton AND look = fancy)` which turns into `(color != red OR fabric != cotton OR look != fancy)`
 
-**:warning: Important:** An enclosing **negation** (`[STRICT] NOT`) **always applies to the bound condition**. 
+**:warning: Important:** An enclosing **negation** (`[STRICT] NOT`) **always applies to the bound** condition. 
 ```sql
 NOT CURB (color = red OR fabric = cotton OR look = fancy) < 3
 ```
@@ -882,9 +884,11 @@ turns into
 ```sql
 CURB (color = red OR fabric = cotton OR look = fancy) >= 3
 ```
-This might be relevant during the execution of the expression which could otherwise potentially interfere with the strictness rules (see [§5 Negation](#5-negation)). CURB *never inherits STRICT* from an enclosing negation, and all negations implied by boolean CURB-resolution (see example above) are *default negations* and thus never strict.
+This might be relevant during the execution of the expression which could otherwise potentially interfere with the strictness rules (see [§5 Negation](#5-negation)). CURB *never inherits STRICT* from any enclosing negation, and all negations implied by boolean CURB-resolution (see example above) are *default negations* and thus never strict.
 
 :bulb: Technically, the curb's bound value is a 64 bit value (see [§2.1.1 Integer Values](#211-integer-values)), way larger than any expected bound value. Implementors must provide clear and helpful error messages in case a user misinterprets the bound and enters a very large value. This should be detected and reported early in the parsing process rather than causing mysterious issues down the execution chain.
+
+**:warning: Important:** While the CURB-feature is a powerful tool, it also enables any user to **overload** a system by *combinatoric explosion*. By including enough options or by nesting CURBs everybody can create expressions that become huge after resolving the CURB, impossible to be executed on any target data store. Implementors should keep this in mind and install *fuses* that protect the infrastructure and return proper information to users who create such overly complex expressions.
 
 [:arrow_right: §4.3 Curbed Or](#43-curbed-or)
 
@@ -909,8 +913,6 @@ STRICT NOT ( (a=1 AND b=2) OR (c=2 AND d!=5) )
 <=> ((a IS NOT UNKNOWN AND a!=1) OR (b IS NOT UNKNOWN AND b!=2)
       AND ((c IS NOT UNKNOWN AND c!=2) OR d=5)
 ```
-
-:warning: After the last transformation step the *strictness* is still preserved but no longer a *descriptive part* of the expression.
 
 #### Special Cases
 
@@ -980,6 +982,7 @@ However, implementors are encouraged to help users understand the implications (
 
 | Version | Date | Changes |
 | :-----|:-----|:-----|
+| 1.12  | November 2024     | Minor adjustments, rephrasing, typos corrected |
 | 1.11  | September 2024    | Example added for NOT (STRICT NOT arg IS UNKNOWN) |
 | 1.1   | August 2024       | Clarification regarding CURB |
 | 1.0   | August 2024       | First specification release  |
