@@ -4,7 +4,7 @@
 # This workflow requires the release tag as parameter.
 
 
-name: Deploy to github CI
+name: Deploy to Maven Central CI
 
 on:
   workflow_dispatch:
@@ -46,6 +46,6 @@ jobs:
           git config user.name "GitHub Actions"      
 
     - name: Deploy artifacts with Maven
-      run: mvn -B deploy -DskipTests
+      run: mvn -P mavenCentral -B deploy -DskipTests
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
