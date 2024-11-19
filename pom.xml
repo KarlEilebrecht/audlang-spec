@@ -3,7 +3,7 @@
 	<groupId>de.calamanari.adl</groupId>
 	<artifactId>audlang-spec</artifactId>
 	<packaging>jar</packaging>
-	<version>1.0.1</version>
+	<version>1.0.2-SNAPSHOT</version>
 	<name>Audlang Specification</name>
 	<description>Audience Definition Language Specification</description>
 
@@ -25,7 +25,7 @@
 		<developerConnection>
 			scm:git:https://github.com/KarlEilebrecht/audlang-spec.git</developerConnection>
 		<url>https://github.com/KarlEilebrecht/audlang-spec</url>
-		<tag>v1.0.1</tag>
+		<tag>audlang-spec-1.0.0</tag>
 	</scm>
 
 
