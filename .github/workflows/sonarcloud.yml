@@ -40,9 +40,9 @@ permissions:
 
 jobs:
 
-  if: "contains(github.event.head_commit.message, '[execute anyway]')" # disabled until config is complete
-
   Analysis:
+
+    if: false
     runs-on: ubuntu-latest
 
     steps:
