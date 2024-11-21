@@ -40,7 +40,7 @@ permissions:
 
 jobs:
 
-  if: false # disabled until config is complete
+  if: "contains('true', 'false')" # disabled until config is complete
 
   Analysis:
     runs-on: ubuntu-latest
