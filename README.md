@@ -24,4 +24,8 @@ For further dependencies required to run the java code please refer to this proj
 
 :bulb: The generated samples are not part of the jar, but they can be generated on demand by using the classes from the aforementioned JAR. Review the test classes in this project for details.
 
+----
+<img align="right" src="https://sonarcloud.io/api/project_badges/measure?project=KarlEilebrecht_audlang-spec&metric=alert_status" />
+
+[![SonarQube Cloud](https://sonarcloud.io/images/project_badges/sonarcloud-light.svg)](https://sonarcloud.io/summary/new_code?id=KarlEilebrecht_audlang-spec)
 
