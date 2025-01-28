@@ -191,7 +191,8 @@
 			<id>github</id>
 			<distributionManagement>
 				<repository>
-					<id>github</id>
+                    <!-- This matches the ID in the settings.xml to find the credentials -->				
+					<id>audlang-spec</id>
 					<name>GitHub KarlEilebrecht Apache Maven Packages</name>
 					<url>
 						https://maven.pkg.github.com/KarlEilebrecht/audlang-spec</url>
