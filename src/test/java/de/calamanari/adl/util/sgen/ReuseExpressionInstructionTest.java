@@ -39,7 +39,7 @@ class ReuseExpressionInstructionTest {
 
         IdFilterReuseExpressionInstruction instruction = new IdFilterReuseExpressionInstruction("someId");
 
-        instruction.setBaseListSupplier(() -> Collections.emptyList());
+        instruction.setBaseListSupplier(Collections::emptyList);
 
         List<SampleExpression> res = instruction.apply(new SampleExpression("id", "label", "", false, false, false, new SampleGenInfo()));
 

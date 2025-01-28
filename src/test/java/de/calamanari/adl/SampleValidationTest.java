@@ -125,7 +125,7 @@ class SampleValidationTest {
             }
             else {
                 sampleGroupCount++;
-                List<SampleExpression> activeSamples = sampleGroup.samples().stream().filter(Predicate.not(sample -> sample.skip())).toList();
+                List<SampleExpression> activeSamples = sampleGroup.samples().stream().filter(Predicate.not(SampleExpression::skip)).toList();
 
                 LOGGER.debug("Found {} active samples ...", activeSamples.size());
 

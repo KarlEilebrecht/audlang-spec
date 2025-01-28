@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
@@ -42,7 +42,7 @@ public class AdlParseResultUtils {
     private static final Map<SampleExpressionOperator, String[]> OPERATOR_RULE_NAME_MAP;
     static {
 
-        Map<SampleExpressionOperator, String[]> map = new HashMap<>();
+        Map<SampleExpressionOperator, String[]> map = new EnumMap<>(SampleExpressionOperator.class);
         map.put(SampleExpressionOperator.EQUALS, new String[] { "cmpEquals", "curbEquals" });
         map.put(SampleExpressionOperator.NOT_EQUALS, new String[] { "cmpNotEquals", "curbNotEquals" });
         map.put(SampleExpressionOperator.GREATER_THAN, new String[] { "cmpGreaterThan", "curbGreaterThan" });
@@ -139,7 +139,7 @@ public class AdlParseResultUtils {
         List<String> res = new ArrayList<>(collectPlainValues(parseResult, "argValue").stream().toList());
 
         // snippets are technically argValues, so we need to subtract occurrences
-        collectPlainValues(parseResult, "snippet").forEach(name -> res.remove(name));
+        collectPlainValues(parseResult, "snippet").forEach(res::remove);
 
         return res;
     }
@@ -149,7 +149,7 @@ public class AdlParseResultUtils {
         List<String> res = new ArrayList<>(collectPlainValues(parseResult, "argName").stream().toList());
 
         // argRefs are technically argNames, so we need to subtract occurrences
-        collectArgRefs(parseResult).forEach(name -> res.remove(name));
+        collectArgRefs(parseResult).forEach(res::remove);
 
         return res;
     }
