@@ -16,7 +16,7 @@ For creating a Java parser-implementation simply create a dependency to this JAR
 		<dependency>
 			<groupId>de.calamanari.adl</groupId>
 			<artifactId>audlang-spec</artifactId>
-			<version>1.0.1</version>
+			<version>1.0.2</version>
 		</dependency>
 ```
 
