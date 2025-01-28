@@ -3,7 +3,7 @@
 
 # Audience Definition Language Specification
 
-***Version 1.12*** *([November 2024](#document-history))*
+***Version 1.13*** *([January 2025](#document-history))*
 
 The Audience Definition Language (Audlang) is a common expression language for defining audiences based on criteria (attributes and their values) *independent* from any concrete storage layer or data model (see also [:information_source: **Main Goals**](#main-goals)).
 
@@ -284,6 +284,8 @@ Audlang language defines the date format `yyyy-MM-dd` with
 *Examples:*
  * `children <= 2`
  * `shirt_size <= L`
+
+:exclamation: Please read: **[:information_source: Behavior of NOT](#behavior-of-not)**
 
 ### §3.4 Between
 
@@ -604,6 +606,8 @@ At first glance it looks convenient for users if the system would *auto-guess*.
 
 However, besides being confusing for users, this kind of *ambiguity* leads to severe issues under the bonnet. Imagine a user expects `on` to mean *true* but the underlying "guessing function" does not know `on`, yet. Such mistakes can be hard to diagnose. 
 
+:exclamation: Please read: **[:information_source: Behavior of NOT](#behavior-of-not)**
+
 [:arrow_right: §2.2 Logical Values](#22-logical-values)
 
 ### About Date Values
@@ -698,6 +702,11 @@ In the example above the query `STRICT car.color != red` would **only return rec
 
  * `NOT car.color=red` returns all cars with a different color than red plus the ones where we don't know the color.
  * `argName != argValue` $\Leftrightarrow$ `NOT argName = argValue` $\Leftrightarrow$ `argName != argValue OR argName IS UNKNOWN`
+ * `argName != 1` means `argName` has any *other* value than `1` *or* `argName IS UNKNOWN`. In case of a [logical value](#22-logical-values) *technically* `argName = 0 OR argName IS UNKNOWN`.
+ * `NOT argName < argValue` $\Leftrightarrow$ `argName >= argValue OR argName IS UNKNOWN`
+ * `NOT argName <= argValue` $\Leftrightarrow$ `argName > argValue OR argName IS UNKNOWN`
+ * `NOT argName > argValue` $\Leftrightarrow$ `argName <= argValue OR argName IS UNKNOWN`
+ * `NOT argName >= argValue` $\Leftrightarrow$ `argName < argValue OR argName IS UNKNOWN`
  * `NOT argName IS UNKNOWN` $\Leftrightarrow$ `argName IS NOT UNKNOWN` returns all records where we know the value of the attribute `argName`.
  * `NOT argName IS NOT UNKNOWN` $:=$ `argName IS UNKNOWN` returns all records were we don't have any value for the attribute `argName`.
  * `NOT <ALL>` $:=$ `<NONE>`
@@ -717,6 +726,11 @@ In the example above the query `STRICT car.color != red` would **only return rec
 
  * `STRICT NOT car.color=red` returns all records with a different car color than red ignoring all records where we don't know the car color.
  * `STRICT argName != argValue` $\Leftrightarrow$ `STRICT NOT argName = argValue` ignores any records where the attribute `argName` is unknown.
+ * `STRICT argName != 1` means `argName` has any *other* value than `1`. In case of a [logical value](#22-logical-values) *technically* `argName = 0`.
+ * `STRICT NOT argName < argValue` $\Leftrightarrow$ `argName >= argValue`
+ * `STRICT NOT argName <= argValue` $\Leftrightarrow$ `argName > argValue`
+ * `STRICT NOT argName > argValue` $\Leftrightarrow$ `argName <= argValue`
+ * `STRICT NOT argName >= argValue` $\Leftrightarrow$ `argName < argValue`
  * `STRICT NOT argName IS UNKNOWN` $:=$ `argName IS NOT UNKNOWN` returns all records where we know the value of the attribute `argName`.
  * `STRICT NOT argName IS NOT UNKNOWN` $:=$ `<NONE>` does not return *any* records because *strict not* always **excludes** the unknowns.
  * `STRICT NOT <ALL>` $:=$ `<NONE>`
@@ -982,6 +996,7 @@ However, implementors are encouraged to help users understand the implications (
 
 | Version | Date | Changes |
 | :-----|:-----|:-----|
+| 1.13  | January 2025     | Added examples regarding the behavior of NOT |
 | 1.12  | November 2024     | Minor adjustments, rephrasing, typos corrected |
 | 1.11  | September 2024    | Example added for NOT (STRICT NOT arg IS UNKNOWN) |
 | 1.1   | August 2024       | Clarification regarding CURB |
