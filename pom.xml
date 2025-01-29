@@ -6,7 +6,8 @@
 	<version>1.0.4-SNAPSHOT</version>
 	<name>Audlang Specification</name>
 	<description>Audience Definition Language Specification</description>
-
+    <url>https://github.com/KarlEilebrecht/audlang-spec</url>
+    
 	<!-- 
 		This is primarily a specification project (zip-artifact with ANTLR-grammar)
 	independent from any programming language.
