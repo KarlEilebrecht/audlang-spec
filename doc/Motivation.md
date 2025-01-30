@@ -5,7 +5,7 @@
 
 Over the last 20 years I have seen a couple of audience builder tools. Although the applications and the underlying data stores varied, the basic problem they address is fairly simple:
 
- * There is pool of records in the system, each stores any form of ID together with attributes that describe an individual, either real or synthetic. Let's call this the *base audience* that is hopefully representative for the *population* of a market.
+ * There is a pool of records in the system, each stores any form of ID together with attributes that describe an individual, either real or synthetic. Let's call this the *base audience* that is hopefully representative for the *population* of a market.
  * There is meta data about the various attributes. E.g., in case of panel data the *attributes* are the answers a particular individual has given.
    * Common meta data: *attribute origin*, *meaning*, *label*, *usage permissions*, etc.
  * An *audience builder* allows creating conditions based on the available attributes used to filter the base audience to define a specific audience (e.g., *"Cat Lovers"*).
