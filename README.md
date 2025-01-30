@@ -1,6 +1,6 @@
 # Audlang Specification
 
-The **Audience Definition Language** aims to define a standard expression language for defining audiences for advertising purposes.
+The **Audience Definition Language** is part of project [Audlang](https://github.com/users/KarlEilebrecht/projects/1/views/1?pane=info) to define a standard expression language for defining audiences for advertising purposes.
 
 :point_right: Here you can find the **[motivation for this project](./doc/Motivation.md).**
 
