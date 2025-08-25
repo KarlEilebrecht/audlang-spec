@@ -70,9 +70,11 @@ Well, there are some good reasons, not to hide the whole process in a single *AI
 
 *Combine both approaches!*
  
- Create a solid language specification for expressions and train the AI to create expressions using this DSL. 
+![Audlang Vision](./audlang-vision.svg)
+
+Create a solid language specification for expressions and train the AI to create expressions using this DSL. 
  
- Due to the expression language *in the middle* you get:
+Due to the expression language *in the middle* you get:
   * Review availability at any time.
   * Easy attribute usage control.
   * Independent implementation and maintenance of target data store converters.
