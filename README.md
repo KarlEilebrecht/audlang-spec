@@ -18,7 +18,7 @@ However, this simplifies the implementation of parsers implemented in Java. Simp
 		<dependency>
 			<groupId>de.calamanari.adl</groupId>
 			<artifactId>audlang-spec</artifactId>
-			<version>1.0.5</version>
+			<version>1.1.0</version>
 		</dependency>
 ```
 
