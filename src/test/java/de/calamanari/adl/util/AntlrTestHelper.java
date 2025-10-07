@@ -138,7 +138,7 @@ public class AntlrTestHelper {
         try {
             return constructor.newInstance((A) null);
         }
-        catch (InstantiationException | IllegalAccessException | InvocationTargetException | RuntimeException e) {
+        catch (InstantiationException | IllegalAccessException | InvocationTargetException | RuntimeException _) {
             throw new RuntimeException(
                     String.format("Unexpected error calling contructor of class %s with single argument %s", constructor.getDeclaringClass(), argumentClass));
         }
@@ -149,7 +149,7 @@ public class AntlrTestHelper {
         try {
             return constructorClass.getConstructor(argumentClass);
         }
-        catch (NoSuchMethodException | RuntimeException ex) {
+        catch (NoSuchMethodException | RuntimeException _) {
             throw new RuntimeException(
                     String.format("Unexpected error resolving contructor of class %s with single argument %s", constructorClass, argumentClass));
         }
@@ -186,7 +186,7 @@ public class AntlrTestHelper {
             String ruleName = ruleNames[ctx.getRuleIndex()];
 
             if (ctx.getText() != null) {
-                List<String> values = parseResult.ruleNameToValueMap.computeIfAbsent(ruleName, s -> new ArrayList<>());
+                List<String> values = parseResult.ruleNameToValueMap.computeIfAbsent(ruleName, _ -> new ArrayList<>());
                 values.add(ctx.getText());
             }
 

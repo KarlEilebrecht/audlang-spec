@@ -186,7 +186,7 @@ public class AdlParseResultUtils {
             try {
                 val = Integer.parseInt(textBound);
             }
-            catch (NumberFormatException ex) {
+            catch (NumberFormatException _) {
                 // ignore
             }
             if (val >= 0) {
