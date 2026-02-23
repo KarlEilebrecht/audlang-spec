@@ -19,8 +19,6 @@
 
 package de.calamanari.adl.util;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -30,6 +28,8 @@ import java.util.Map;
 
 import de.calamanari.adl.util.sgen.SampleExpressionOperator;
 import de.calamanari.adl.util.sgen.SampleGenInfo;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * These utilities are related to testing the generated examples. The basic idea is to compare information from a parse run on a given sample expression agains
