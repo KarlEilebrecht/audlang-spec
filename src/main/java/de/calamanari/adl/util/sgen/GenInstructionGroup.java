@@ -46,7 +46,7 @@ public record GenInstructionGroup(String group, List<GenInstruction> members) {
      * @param targetList the list of already generated samples
      */
     public void prepare(List<SampleExpression> targetList) {
-        members.stream().forEach(instruction -> instruction.prepare(targetList));
+        members.forEach(instruction -> instruction.prepare(targetList));
     }
 
 }

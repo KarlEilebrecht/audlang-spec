@@ -60,7 +60,7 @@ public record GenInstructionPlan(List<GenInstructionGroup> groups) {
      * @param targetList list of already generated samples
      */
     public void prepare(List<SampleExpression> targetList) {
-        groups.stream().forEach(group -> group.prepare(targetList));
+        groups.forEach(group -> group.prepare(targetList));
     }
 
 }
