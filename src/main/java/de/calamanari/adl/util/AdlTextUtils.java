@@ -108,7 +108,7 @@ public class AdlTextUtils {
 
         while (state.inputIdx < input.length()) {
             char ch = input.charAt(state.inputIdx);
-            if ((ch >= 0 && ch < 32) || ch == 127) {
+            if (ch < 32 || ch == 127) {
                 throw new IllegalArgumentException(
                         String.format("Special character %s detected (implementation error, escaping must happen beforehand), problematic text: %s",
                                 Integer.toHexString(ch), input));
@@ -159,7 +159,7 @@ public class AdlTextUtils {
 
         while (state.inputIdx < input.length() - 1) {
             char ch = input.charAt(state.inputIdx);
-            if ((ch >= 0 && ch < 32) || ch == 127) {
+            if (ch < 32 || ch == 127) {
                 throw new IllegalArgumentException(
                         String.format("Special character %s detected (implementation error, unescaped text is not expected here), problematic text: %s",
                                 Integer.toHexString(ch), input));
