@@ -629,42 +629,42 @@ public enum StatelessInstruction implements TemplateInstruction {
      * Internal constants class with all the available standard patterns
      */
     private static final class BasicPatterns {
-        private static final String[] TPL_MANDATORY_WHITESPACE_OR_COMMENT = new String[] { " ", "\n", "\r\n", "\t", "\r", "   ", "\t\t\n\t" };
-        private static final String[] TPL_OPTIONAL_WHITESPACE_OR_COMMENT = new String[] { "", " ", "\n", "\r\n", "\t", "\r", "   ", "\t\t\n\t" };
-        private static final String[] TPL_COMMENT = new String[] { "/* comment */", "/* hugo */", "/* NOT */", "\n/**/\n", "\n/*AND (b=3)*/\n",
+        private static final String[] TPL_MANDATORY_WHITESPACE_OR_COMMENT = { " ", "\n", "\r\n", "\t", "\r", "   ", "\t\t\n\t" };
+        private static final String[] TPL_OPTIONAL_WHITESPACE_OR_COMMENT = { "", " ", "\n", "\r\n", "\t", "\r", "   ", "\t\t\n\t" };
+        private static final String[] TPL_COMMENT = { "/* comment */", "/* hugo */", "/* NOT */", "\n/**/\n", "\n/*AND (b=3)*/\n",
                 "/*\\nsome comment\\n\\n\\n*/" };
 
-        private static final String[] TPL_OR = new String[] { "OR", "or", "Or", "oR" };
-        private static final String[] TPL_AND = new String[] { "AND", "and", "And", "AnD", "aND" };
+        private static final String[] TPL_OR = { "OR", "or", "Or", "oR" };
+        private static final String[] TPL_AND = { "AND", "and", "And", "AnD", "aND" };
 
-        private static final String[] TPL_ALL = new String[] { "<ALL>", "<all>", "<All>", "<aLl>", "<AlL>" };
-        private static final String[] TPL_NONE = new String[] { "<NONE>", "<none>", "<None>", "<nOnE>", "<NoNe>" };
-        private static final String[] TPL_IS = new String[] { "IS", "is", "Is", "iS" };
-        private static final String[] TPL_NOT = new String[] { "NOT", "not", "Not", "nOt", "nOT" };
-        private static final String[] TPL_UNKNOWN = new String[] { "UNKNOWN", "unknown", "Unknown", "unKnown", "uNkNoWn" };
-        private static final String[] TPL_OP = new String[] { "=", "<", "<=", "!=", ">=", ">" };
-        private static final String[] TPL_STRICT = new String[] { "STRICT", "strict", "Strict", "sTriCt" };
-        private static final String[] TPL_ANY = new String[] { "ANY", "any", "Any", "AnY", "aNY" };
-        private static final String[] TPL_OF = new String[] { "OF", "of", "Of", "oF" };
-        private static final String[] TPL_CONTAINS = new String[] { "CONTAINS", "contains", "Contains", "conTains", "cONTAInS" };
-        private static final String[] TPL_BETWEEN = new String[] { "BETWEEN", "between", "Between", "betWeen", "bETWEEn" };
-        private static final String[] TPL_CURB = new String[] { "CURB", "curb", "Curb", "curB", "cUrB" };
+        private static final String[] TPL_ALL = { "<ALL>", "<all>", "<All>", "<aLl>", "<AlL>" };
+        private static final String[] TPL_NONE = { "<NONE>", "<none>", "<None>", "<nOnE>", "<NoNe>" };
+        private static final String[] TPL_IS = { "IS", "is", "Is", "iS" };
+        private static final String[] TPL_NOT = { "NOT", "not", "Not", "nOt", "nOT" };
+        private static final String[] TPL_UNKNOWN = { "UNKNOWN", "unknown", "Unknown", "unKnown", "uNkNoWn" };
+        private static final String[] TPL_OP = { "=", "<", "<=", "!=", ">=", ">" };
+        private static final String[] TPL_STRICT = { "STRICT", "strict", "Strict", "sTriCt" };
+        private static final String[] TPL_ANY = { "ANY", "any", "Any", "AnY", "aNY" };
+        private static final String[] TPL_OF = { "OF", "of", "Of", "oF" };
+        private static final String[] TPL_CONTAINS = { "CONTAINS", "contains", "Contains", "conTains", "cONTAInS" };
+        private static final String[] TPL_BETWEEN = { "BETWEEN", "between", "Between", "betWeen", "bETWEEn" };
+        private static final String[] TPL_CURB = { "CURB", "curb", "Curb", "curB", "cUrB" };
 
-        private static final String[] TPL_ARG_NAME = new String[] { "argName", "a", "\"a\"", "\"argName\"", "\"argument name\"", "arg1", "arg2", "arg3", "arg4",
-                "arg5", "arg6", "arg7", "arg8", "arg9", "arg10", "arg11", "arg12", "arg13", "arg14", "arg15", "arg16", "arg17", "arg18", "arg19", "arg20",
-                "\"<ALL>\"", "\"<NONE>\"", "\"IS\"", "\"NOT\"", "\"BETWEEN\"", "\"STRICT\"", "\"UNKNOWN\"", "\"OF\"", "\"CONTAINS\"", "\"CURB\"",
+        private static final String[] TPL_ARG_NAME = { "argName", "a", "\"a\"", "\"argName\"", "\"argument name\"", "arg1", "arg2", "arg3", "arg4", "arg5",
+                "arg6", "arg7", "arg8", "arg9", "arg10", "arg11", "arg12", "arg13", "arg14", "arg15", "arg16", "arg17", "arg18", "arg19", "arg20", "\"<ALL>\"",
+                "\"<NONE>\"", "\"IS\"", "\"NOT\"", "\"BETWEEN\"", "\"STRICT\"", "\"UNKNOWN\"", "\"OF\"", "\"CONTAINS\"", "\"CURB\"",
                 "\"name with quote (\"\")\"" };
-        private static final String[] TPL_ARG_VALUE = new String[] { "value", "\"\"", "v", "\"v\"", "\"value\"", "val1", "val2", "val3", "val4", "val5", "val6",
-                "val7", "val8", "val9", "val10", "val11", "val12", "val13", "val14", "val15", "val16", "val17", "val18", "val19", "val20", "\"some value\"",
+        private static final String[] TPL_ARG_VALUE = { "value", "\"\"", "v", "\"v\"", "\"value\"", "val1", "val2", "val3", "val4", "val5", "val6", "val7",
+                "val8", "val9", "val10", "val11", "val12", "val13", "val14", "val15", "val16", "val17", "val18", "val19", "val20", "\"some value\"",
                 "\"<ALL>\"", "\"<NONE>\"", "\"IS\"", "\"NOT\"", "\"BETWEEN\"", "\"STRICT\"", "\"UNKNOWN\"", "\"OF\"", "\"CONTAINS\"", "\"CURB\"",
                 "\"value with quote (\"\")\"" };
-        private static final String[] TPL_ARG_REF = new String[] { "@argName", "@a", "@\"a\"", "@\"argName\"", "@\"argument name\"", "@arg1", "@arg2", "@arg3",
-                "@arg4", "@arg5", "@arg6", "@arg7", "@arg8", "@arg9", "@arg10", "@arg11", "@arg12", "@arg13", "@arg14", "@arg15", "@arg16", "@arg17", "@arg18",
-                "@arg19", "@arg20", "@\"<ALL>\"", "@\"<NONE>\"", "@\"IS\"", "@\"NOT\"", "@\"BETWEEN\"", "@\"STRICT\"", "@\"UNKNOWN\"", "@\"OF\"",
-                "@\"CONTAINS\"", "@\"CURB\"", "@\"argref with quote (\"\")\"" };
+        private static final String[] TPL_ARG_REF = { "@argName", "@a", "@\"a\"", "@\"argName\"", "@\"argument name\"", "@arg1", "@arg2", "@arg3", "@arg4",
+                "@arg5", "@arg6", "@arg7", "@arg8", "@arg9", "@arg10", "@arg11", "@arg12", "@arg13", "@arg14", "@arg15", "@arg16", "@arg17", "@arg18", "@arg19",
+                "@arg20", "@\"<ALL>\"", "@\"<NONE>\"", "@\"IS\"", "@\"NOT\"", "@\"BETWEEN\"", "@\"STRICT\"", "@\"UNKNOWN\"", "@\"OF\"", "@\"CONTAINS\"",
+                "@\"CURB\"", "@\"argref with quote (\"\")\"" };
 
-        private static final String[] TPL_SNIPPET = new String[] { "foo", "f", "bar", "\"foo bar\"", "\\", "\"a=b\"", "\"OR\"", "brand\\sports", "C:\\programs",
-                "\"!\"", "yeti", "Hugo", "Eliza", "blue", "red", "green", "toast", "\"snippet with quote (\"\")\"" };
+        private static final String[] TPL_SNIPPET = { "foo", "f", "bar", "\"foo bar\"", "\\", "\"a=b\"", "\"OR\"", "brand\\sports", "C:\\programs", "\"!\"",
+                "yeti", "Hugo", "Eliza", "blue", "red", "green", "toast", "\"snippet with quote (\"\")\"" };
 
         private static final String[] TPL_MIXED;
         static {
@@ -673,7 +673,7 @@ public enum StatelessInstruction implements TemplateInstruction {
             TPL_MIXED = all.toArray(new String[0]);
         }
 
-        private static final String[] TPL_BOUND = new String[] { "1", "0", "10", "2", "3", "4", "5", "6", "7", "8", "9", "999" };
+        private static final String[] TPL_BOUND = { "1", "0", "10", "2", "3", "4", "5", "6", "7", "8", "9", "999" };
 
     }
 

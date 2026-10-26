@@ -22,6 +22,7 @@ package de.calamanari.adl.util;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -112,10 +113,10 @@ public class AdlParseResultUtils {
     private static <T extends Comparable<T>> void assertSameElements(List<T> expected, List<T> actual) {
 
         List<T> expectedOrdered = new ArrayList<>(expected);
-        Collections.sort(expectedOrdered);
+        expectedOrdered.sort(Comparator.naturalOrder());
 
         List<T> actualOrdered = new ArrayList<>(actual);
-        Collections.sort(actualOrdered);
+        actualOrdered.sort(Comparator.naturalOrder());
 
         assertEquals(expectedOrdered, actualOrdered);
     }

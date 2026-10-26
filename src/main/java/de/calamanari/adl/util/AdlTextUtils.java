@@ -47,7 +47,7 @@ public class AdlTextUtils {
      */
     static final Set<String> RESERVED_LITERALS;
     static {
-        String[] templates = new String[] { "AND", "OR", "STRICT", "NOT", "IS", "ANY", "OF", "BETWEEN", "CONTAINS", "CURB", "UNKNOWN" };
+        String[] templates = { "AND", "OR", "STRICT", "NOT", "IS", "ANY", "OF", "BETWEEN", "CONTAINS", "CURB", "UNKNOWN" };
 
         List<String> literalVariations = new ArrayList<>();
 
